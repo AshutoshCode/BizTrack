@@ -1738,6 +1738,18 @@
             if (saved) {
                 data = JSON.parse(saved);
             }
+            // Ensure all data arrays exist (safe to run every load)
+            if (!data.invoices) data.invoices = [];
+            if (!data.expenses) data.expenses = [];
+            if (!data.inventory) data.inventory = [];
+            if (!data.customers) data.customers = [];
+            if (!data.paymentLinks) data.paymentLinks = [];
+            if (!data.paymentsReceived) data.paymentsReceived = [];
+            if (!data.recurringExpenses) data.recurringExpenses = [];
+            if (!data.quotes) data.quotes = [];
+            if (!data.retainers) data.retainers = [];
+            if (!data.challans) data.challans = [];
+            if (!data.subscriptions) data.subscriptions = [];
         }
 
         // Save data to localStorage
@@ -2132,14 +2144,7 @@
             if (btn) btn.classList.add('active');
         }
 
-        // ===== DATA MODEL EXTENSION =====
-        const _origLoadData = loadData;
-        function loadData() {
-            _origLoadData();
-            if (!data.paymentLinks) data.paymentLinks = [];
-            if (!data.paymentsReceived) data.paymentsReceived = [];
-            if (!data.recurringExpenses) data.recurringExpenses = [];
-        }
+
 
         // ===== PAYMENT LINKS =====
         function addPaymentLink() {
@@ -2278,17 +2283,7 @@
             renderRecurringExpenses();
         }
 
-        // ===== DATA MODEL EXTENSION (new sales arrays) =====
-        (function () {
-            const _base = loadData;
-            loadData = function () {
-                _base();
-                if (!data.quotes) data.quotes = [];
-                if (!data.retainers) data.retainers = [];
-                if (!data.challans) data.challans = [];
-                if (!data.subscriptions) data.subscriptions = [];
-            };
-        })();
+
 
         // ===== QUOTES =====
         function _quoteBadgeClass(status) {
