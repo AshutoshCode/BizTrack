@@ -445,6 +445,68 @@
             min-height: 100px;
         }
 
+        /* ===== SUB-NAVIGATION ===== */
+        .sub-nav {
+            display: flex;
+            gap: 4px;
+            background: var(--bg-card2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 4px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .sub-nav-btn {
+            background: transparent;
+            border: none;
+            border-radius: 7px;
+            padding: 7px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s;
+            white-space: nowrap;
+        }
+
+        .sub-nav-btn:hover {
+            background: var(--bg-input);
+            color: var(--text-primary);
+        }
+
+        .sub-nav-btn.active {
+            background: var(--accent);
+            color: #fff;
+        }
+
+        .sub-section {
+            display: none;
+        }
+
+        .sub-section.active {
+            display: block;
+        }
+
+        .form-textarea {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px 12px;
+            color: var(--text-primary);
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+            resize: vertical;
+            min-height: 72px;
+            font-family: inherit;
+        }
+
+        .form-textarea:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: 1px;
+        }
+
         /* ===== BUTTONS ===== */
         button {
             padding: 12px 28px;
@@ -740,8 +802,14 @@
             </li>
             <li class="nav-item">
                 <button class="nav-link" onclick="switchSection('invoices')">
-                    <span class="nav-icon">📄</span>
-                    <span>Invoices</span>
+                    <span class="nav-icon">🧾</span>
+                    <span>Sales</span>
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" onclick="switchSection('payments')">
+                    <span class="nav-icon">💳</span>
+                    <span>Payments</span>
                 </button>
             </li>
             <li class="nav-item">
@@ -831,123 +899,579 @@
                 </div>
             </section>
 
-            <!-- INVOICES SECTION -->
+            <!-- SALES (INVOICES) SECTION -->
             <section id="invoices" class="section">
-                <div class="form-section">
-                    <h2 class="form-title">➕ Create New Invoice</h2>
-                    <form id="invoiceForm" onsubmit="addInvoice(event)">
+                <div class="sub-nav">
+                    <button class="sub-nav-btn active" onclick="showSubSection('invoices','salesQuotes',this)">💬
+                        Quotes</button>
+                    <button class="sub-nav-btn" onclick="showSubSection('invoices','salesRetainer',this)">🔄 Retainer
+                        Invoices</button>
+                    <button class="sub-nav-btn" onclick="showSubSection('invoices','salesChallan',this)">🚚 Delivery
+                        Challans</button>
+                    <button class="sub-nav-btn" onclick="showSubSection('invoices','salesInvoices',this)">🧾
+                        Invoices</button>
+                    <button class="sub-nav-btn" onclick="showSubSection('invoices','salesSubscriptions',this)">📅
+                        Subscriptions</button>
+                </div>
+
+                <div class="sub-section active" id="salesQuotes">
+                    <div class="form-section">
+                        <h3 class="form-title">💬 New Quote</h3>
                         <div class="form-grid">
                             <div class="form-group">
-                                <label>Customer Name *</label>
-                                <input type="text" id="invCustomer" placeholder="Enter customer name" required>
+                                <label>Customer Name</label>
+                                <input type="text" id="qCustomer" placeholder="e.g. Acme Corp">
                             </div>
                             <div class="form-group">
-                                <label>Amount *</label>
-                                <input type="number" id="invAmount" placeholder="0.00" step="0.01" min="0" required>
+                                <label>Amount (₹)</label>
+                                <input type="number" id="qAmount" placeholder="0.00" min="0" step="0.01">
                             </div>
                             <div class="form-group">
-                                <label>Due Date *</label>
-                                <input type="date" id="invDueDate" required>
+                                <label>Valid Until</label>
+                                <input type="date" id="qValidUntil">
                             </div>
                             <div class="form-group">
                                 <label>Status</label>
-                                <select id="invStatus">
-                                    <option>Pending</option>
-                                    <option>Paid</option>
-                                    <option>Overdue</option>
+                                <select id="qStatus">
+                                    <option value="Draft">Draft</option>
+                                    <option value="Sent">Sent</option>
+                                    <option value="Accepted">Accepted</option>
+                                    <option value="Declined">Declined</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="grid-column:1/-1;">
+                                <label>Notes</label>
+                                <textarea id="qNotes" class="form-textarea" placeholder="Optional notes..."></textarea>
+                            </div>
+                        </div>
+                        <div class="btn-group" style="margin-top:16px;">
+                            <button class="btn-primary" onclick="addQuote()">Add Quote</button>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h3 class="form-title">💬 All Quotes</h3>
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Customer</th>
+                                        <th>Amount</th>
+                                        <th>Valid Until</th>
+                                        <th>Status</th>
+                                        <th>Notes</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="quotesTableBody">
+                                    <tr>
+                                        <td colspan="6" style="text-align:center;color:var(--text-secondary);">No quotes
+                                            yet.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-section" id="salesRetainer">
+                    <div class="form-section">
+                        <h3 class="form-title">🔄 New Retainer Invoice</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Customer Name</label>
+                                <input type="text" id="rtCustomer" placeholder="e.g. Globex Ltd">
+                            </div>
+                            <div class="form-group">
+                                <label>Monthly Amount (₹)</label>
+                                <input type="number" id="rtAmount" placeholder="0.00" min="0" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label>Billing Day of Month (1–28)</label>
+                                <input type="number" id="rtBillingDay" placeholder="e.g. 1" min="1" max="28">
+                            </div>
+                            <div class="form-group">
+                                <label>Start Date</label>
+                                <input type="date" id="rtStartDate">
+                            </div>
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select id="rtStatus">
+                                    <option value="Active">Active</option>
+                                    <option value="Paused">Paused</option>
+                                    <option value="Cancelled">Cancelled</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="grid-column:1/-1;">
+                                <label>Notes</label>
+                                <textarea id="rtNotes" class="form-textarea" placeholder="Optional notes..."></textarea>
+                            </div>
+                        </div>
+                        <div class="btn-group" style="margin-top:16px;">
+                            <button class="btn-primary" onclick="addRetainer()">Add Retainer</button>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h3 class="form-title">🔄 All Retainer Invoices</h3>
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Customer</th>
+                                        <th>Monthly Amount</th>
+                                        <th>Billing Day</th>
+                                        <th>Start Date</th>
+                                        <th>Status</th>
+                                        <th>Notes</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="retainersTableBody">
+                                    <tr>
+                                        <td colspan="7" style="text-align:center;color:var(--text-secondary);">No
+                                            retainer invoices yet.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-section" id="salesChallan">
+                    <div class="form-section">
+                        <h3 class="form-title">🚚 New Delivery Challan</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Challan No</label>
+                                <input type="text" id="dcChallanNo" placeholder="e.g. DC-001">
+                            </div>
+                            <div class="form-group">
+                                <label>Customer Name</label>
+                                <input type="text" id="dcCustomer" placeholder="e.g. Acme Corp">
+                            </div>
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="date" id="dcDate">
+                            </div>
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select id="dcStatus">
+                                    <option value="Dispatched">Dispatched</option>
+                                    <option value="Delivered">Delivered</option>
+                                    <option value="Returned">Returned</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="grid-column:1/-1;">
+                                <label>Items / Goods Description</label>
+                                <textarea id="dcItems" class="form-textarea"
+                                    placeholder="List items dispatched..."></textarea>
+                            </div>
+                            <div class="form-group" style="grid-column:1/-1;">
+                                <label>Notes</label>
+                                <textarea id="dcNotes" class="form-textarea" placeholder="Optional notes..."></textarea>
+                            </div>
+                        </div>
+                        <div class="btn-group" style="margin-top:16px;">
+                            <button class="btn-primary" onclick="addChallan()">Add Challan</button>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h3 class="form-title">🚚 All Delivery Challans</h3>
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Challan No</th>
+                                        <th>Customer</th>
+                                        <th>Date</th>
+                                        <th>Items</th>
+                                        <th>Status</th>
+                                        <th>Notes</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="challansTableBody">
+                                    <tr>
+                                        <td colspan="7" style="text-align:center;color:var(--text-secondary);">No
+                                            challans yet.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-section" id="salesInvoices">
+                    <div class="form-section">
+                        <h2 class="form-title">➕ Create New Invoice</h2>
+                        <form id="invoiceForm" onsubmit="addInvoice(event)">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Customer Name *</label>
+                                    <input type="text" id="invCustomer" placeholder="Enter customer name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Amount *</label>
+                                    <input type="number" id="invAmount" placeholder="0.00" step="0.01" min="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Due Date *</label>
+                                    <input type="date" id="invDueDate" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Status</label>
+                                    <select id="invStatus">
+                                        <option>Pending</option>
+                                        <option>Paid</option>
+                                        <option>Overdue</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="btn-group">
+                                <button type="submit" class="btn-primary">Create Invoice</button>
+                                <button type="reset" class="btn-secondary">Clear Form</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-section">
+                        <h2 class="form-title">📋 Invoice List</h2>
+                        <div class="table-wrapper">
+                            <table id="invoicesTable">
+                                <thead>
+                                    <tr>
+                                        <th>Customer</th>
+                                        <th>Amount</th>
+                                        <th>Due Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="invoicesList">
+                                    <tr>
+                                        <td colspan="5" style="text-align:center;color:var(--text-secondary);">No
+                                            invoices yet</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-section" id="salesSubscriptions">
+                    <div class="form-section">
+                        <h3 class="form-title">📅 New Subscription</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Customer Name</label>
+                                <input type="text" id="subCustomer" placeholder="e.g. Acme Corp">
+                            </div>
+                            <div class="form-group">
+                                <label>Plan Name</label>
+                                <input type="text" id="subPlan" placeholder="e.g. Pro Plan">
+                            </div>
+                            <div class="form-group">
+                                <label>Amount (₹)</label>
+                                <input type="number" id="subAmount" placeholder="0.00" min="0" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label>Frequency</label>
+                                <select id="subFrequency">
+                                    <option value="Monthly">Monthly</option>
+                                    <option value="Quarterly">Quarterly</option>
+                                    <option value="Yearly">Yearly</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Next Billing Date</label>
+                                <input type="date" id="subNextBilling">
+                            </div>
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select id="subStatus">
+                                    <option value="Active">Active</option>
+                                    <option value="Paused">Paused</option>
+                                    <option value="Cancelled">Cancelled</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="btn-group">
-                            <button type="submit" class="btn-primary">Create Invoice</button>
-                            <button type="reset" class="btn-secondary">Clear Form</button>
+                        <div class="btn-group" style="margin-top:16px;">
+                            <button class="btn-primary" onclick="addSubscription()">Add Subscription</button>
                         </div>
-                    </form>
+                    </div>
+                    <div class="form-section">
+                        <h3 class="form-title">📅 All Subscriptions</h3>
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Customer</th>
+                                        <th>Plan</th>
+                                        <th>Amount</th>
+                                        <th>Frequency</th>
+                                        <th>Next Billing</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="subscriptionsTableBody">
+                                    <tr>
+                                        <td colspan="7" style="text-align:center;color:var(--text-secondary);">No
+                                            subscriptions yet.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PAYMENTS SECTION -->
+            <section id="payments" class="section">
+                <div class="sub-nav">
+                    <button class="sub-nav-btn active" onclick="showSubSection('payments','paymentLinks',this)">🔗
+                        Payment Links</button>
+                    <button class="sub-nav-btn" onclick="showSubSection('payments','paymentsReceived',this)">✅ Payments
+                        Received</button>
                 </div>
 
-                <div class="form-section">
-                    <h2 class="form-title">📋 Invoice List</h2>
-                    <div class="table-wrapper">
-                        <table id="invoicesTable">
-                            <thead>
-                                <tr>
-                                    <th>Customer</th>
-                                    <th>Amount</th>
-                                    <th>Due Date</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="invoicesList">
-                                <tr>
-                                    <td colspan="5" style="text-align: center; color: var(--text-secondary);">No
-                                        invoices yet</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <div class="sub-section active" id="paymentLinks">
+                    <div class="form-section">
+                        <h3 class="form-title">🔗 Generate Payment Link</h3>
+                        <p style="color:var(--text-secondary);margin:0 0 20px;">Create shareable payment links to send
+                            to customers.</p>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Customer Name</label>
+                                <input type="text" id="plCustomer" placeholder="e.g. Acme Corp">
+                            </div>
+                            <div class="form-group">
+                                <label>Amount (₹)</label>
+                                <input type="number" id="plAmount" placeholder="0.00" min="0" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label>Description</label>
+                                <input type="text" id="plDescription" placeholder="e.g. Invoice #INV-001">
+                            </div>
+                            <div class="form-group">
+                                <label>Expiry Date</label>
+                                <input type="date" id="plExpiry">
+                            </div>
+                        </div>
+                        <div class="btn-group" style="margin-top:8px;">
+                            <button class="btn-primary" onclick="addPaymentLink()">Generate Link</button>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h3 class="form-title">🔗 Generated Payment Links</h3>
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Customer</th>
+                                        <th>Amount</th>
+                                        <th>Description</th>
+                                        <th>Expiry</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="paymentLinksTableBody">
+                                    <tr>
+                                        <td colspan="6" style="text-align:center;color:var(--text-secondary);">No
+                                            payment links yet.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-section" id="paymentsReceived">
+                    <div class="form-section">
+                        <h3 class="form-title">✅ Record Payment Received</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Customer</label>
+                                <input type="text" id="prCustomer" placeholder="Customer name">
+                            </div>
+                            <div class="form-group">
+                                <label>Amount (₹)</label>
+                                <input type="number" id="prAmount" placeholder="0.00" min="0" step="0.01">
+                            </div>
+                            <div class="form-group">
+                                <label>Payment Method</label>
+                                <select id="prMethod">
+                                    <option>UPI</option>
+                                    <option>Bank Transfer</option>
+                                    <option>Cash</option>
+                                    <option>Card</option>
+                                    <option>Cheque</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="date" id="prDate">
+                            </div>
+                            <div class="form-group">
+                                <label>Reference / Note</label>
+                                <input type="text" id="prNote" placeholder="e.g. Invoice #INV-001">
+                            </div>
+                        </div>
+                        <div class="btn-group" style="margin-top:8px;">
+                            <button class="btn-primary" onclick="addPaymentReceived()">Record Payment</button>
+                        </div>
+                    </div>
+                    <div class="form-section">
+                        <h3 class="form-title">✅ Payments Received</h3>
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Customer</th>
+                                        <th>Amount</th>
+                                        <th>Method</th>
+                                        <th>Date</th>
+                                        <th>Note</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="paymentsReceivedTableBody">
+                                    <tr>
+                                        <td colspan="6" style="text-align:center;color:var(--text-secondary);">No
+                                            payments recorded yet.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </section>
 
             <!-- EXPENSES SECTION -->
             <section id="expenses" class="section">
-                <div class="form-section">
-                    <h2 class="form-title">➕ Record Expense</h2>
-                    <form id="expenseForm" onsubmit="addExpense(event)">
+                <div class="sub-nav">
+                    <button class="sub-nav-btn active" onclick="showSubSection('expenses','expensesRegular',this)">💸
+                        Expenses</button>
+                    <button class="sub-nav-btn" onclick="showSubSection('expenses','expensesRecurring',this)">🔁
+                        Recurring Expenses</button>
+                </div>
+
+                <div class="sub-section active" id="expensesRegular">
+                    <div class="form-section">
+                        <h2 class="form-title">➕ Record Expense</h2>
+                        <form id="expenseForm" onsubmit="addExpense(event)">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Description *</label>
+                                    <input type="text" id="expDesc" placeholder="e.g., Office supplies" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Amount *</label>
+                                    <input type="number" id="expAmount" placeholder="0.00" step="0.01" min="0" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Category *</label>
+                                    <select id="expCategory" required>
+                                        <option>Select Category</option>
+                                        <option>Office Supplies</option>
+                                        <option>Utilities</option>
+                                        <option>Rent</option>
+                                        <option>Salaries</option>
+                                        <option>Marketing</option>
+                                        <option>Equipment</option>
+                                        <option>Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Date *</label>
+                                    <input type="date" id="expDate" required>
+                                </div>
+                            </div>
+                            <div class="btn-group">
+                                <button type="submit" class="btn-primary">Add Expense</button>
+                                <button type="reset" class="btn-secondary">Clear Form</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-section">
+                        <h2 class="form-title">💰 Expense Log</h2>
+                        <div class="table-wrapper">
+                            <table id="expensesTable">
+                                <thead>
+                                    <tr>
+                                        <th>Description</th>
+                                        <th>Category</th>
+                                        <th>Amount</th>
+                                        <th>Date</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="expensesList">
+                                    <tr>
+                                        <td colspan="5" style="text-align:center;color:var(--text-secondary);">No
+                                            expenses recorded</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sub-section" id="expensesRecurring">
+                    <div class="form-section">
+                        <h3 class="form-title">🔁 Add Recurring Expense</h3>
                         <div class="form-grid">
                             <div class="form-group">
-                                <label>Description *</label>
-                                <input type="text" id="expDesc" placeholder="e.g., Office supplies" required>
+                                <label>Description</label>
+                                <input type="text" id="reDescription" placeholder="e.g. Office Rent">
                             </div>
                             <div class="form-group">
-                                <label>Amount *</label>
-                                <input type="number" id="expAmount" placeholder="0.00" step="0.01" min="0" required>
+                                <label>Amount (₹)</label>
+                                <input type="number" id="reAmount" placeholder="0.00" min="0" step="0.01">
                             </div>
                             <div class="form-group">
-                                <label>Category *</label>
-                                <select id="expCategory" required>
-                                    <option>Select Category</option>
-                                    <option>Office Supplies</option>
-                                    <option>Utilities</option>
-                                    <option>Rent</option>
-                                    <option>Salaries</option>
-                                    <option>Marketing</option>
-                                    <option>Equipment</option>
-                                    <option>Other</option>
+                                <label>Category</label>
+                                <input type="text" id="reCategory" placeholder="e.g. Rent, Utilities">
+                            </div>
+                            <div class="form-group">
+                                <label>Frequency</label>
+                                <select id="reFrequency">
+                                    <option>Monthly</option>
+                                    <option>Weekly</option>
+                                    <option>Quarterly</option>
+                                    <option>Yearly</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Date *</label>
-                                <input type="date" id="expDate" required>
+                                <label>Next Due Date</label>
+                                <input type="date" id="reNextDate">
                             </div>
                         </div>
-                        <div class="btn-group">
-                            <button type="submit" class="btn-primary">Add Expense</button>
-                            <button type="reset" class="btn-secondary">Clear Form</button>
+                        <div class="btn-group" style="margin-top:8px;">
+                            <button class="btn-primary" onclick="addRecurringExpense()">Add Recurring Expense</button>
                         </div>
-                    </form>
-                </div>
-
-                <div class="form-section">
-                    <h2 class="form-title">💰 Expense Log</h2>
-                    <div class="table-wrapper">
-                        <table id="expensesTable">
-                            <thead>
-                                <tr>
-                                    <th>Description</th>
-                                    <th>Category</th>
-                                    <th>Amount</th>
-                                    <th>Date</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="expensesList">
-                                <tr>
-                                    <td colspan="5" style="text-align: center; color: var(--text-secondary);">No
-                                        expenses recorded</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    </div>
+                    <div class="form-section">
+                        <h3 class="form-title">🔁 Recurring Expenses</h3>
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Description</th>
+                                        <th>Amount</th>
+                                        <th>Category</th>
+                                        <th>Frequency</th>
+                                        <th>Next Due</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recurringExpensesTableBody">
+                                    <tr>
+                                        <td colspan="6" style="text-align:center;color:var(--text-secondary);">No
+                                            recurring expenses yet.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -1243,13 +1767,19 @@
             // Update header title
             const titles = {
                 dashboard: 'Dashboard',
-                invoices: 'Invoices',
+                invoices: 'Sales',
+                payments: 'Payments',
                 expenses: 'Expenses',
                 inventory: 'Inventory',
                 customers: 'Customers',
                 reports: 'Reports'
             };
-            document.getElementById('pageTitle').textContent = titles[sectionId];
+            document.getElementById('pageTitle').textContent = titles[sectionId] || sectionId;
+            // Refresh payment renders when switching to Payments tab
+            if (sectionId === 'payments') {
+                renderPaymentLinks();
+                renderPaymentsReceived();
+            }
         }
 
         // ===== INVOICES =====
@@ -1593,12 +2123,385 @@
             location.reload();
         }
 
+        // ===== SUB-SECTION NAVIGATION =====
+        function showSubSection(sectionId, subId, btn) {
+            const parentSection = document.getElementById(sectionId);
+            parentSection.querySelectorAll('.sub-section').forEach(el => el.classList.remove('active'));
+            parentSection.querySelectorAll('.sub-nav-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(subId).classList.add('active');
+            if (btn) btn.classList.add('active');
+        }
+
+        // ===== DATA MODEL EXTENSION =====
+        const _origLoadData = loadData;
+        function loadData() {
+            _origLoadData();
+            if (!data.paymentLinks) data.paymentLinks = [];
+            if (!data.paymentsReceived) data.paymentsReceived = [];
+            if (!data.recurringExpenses) data.recurringExpenses = [];
+        }
+
+        // ===== PAYMENT LINKS =====
+        function addPaymentLink() {
+            const customer = document.getElementById('plCustomer').value.trim();
+            const amount = parseFloat(document.getElementById('plAmount').value);
+            const description = document.getElementById('plDescription').value.trim();
+            const expiry = document.getElementById('plExpiry').value;
+            if (!customer || isNaN(amount) || amount <= 0) {
+                alert('Please enter a customer name and valid amount.');
+                return;
+            }
+            const link = {
+                id: Date.now(), customer, amount, description, expiry,
+                status: 'Active',
+                url: '#pay-' + Math.random().toString(36).substr(2, 8).toUpperCase()
+            };
+            data.paymentLinks.push(link);
+            saveData();
+            renderPaymentLinks();
+            ['plCustomer', 'plAmount', 'plDescription', 'plExpiry'].forEach(id => document.getElementById(id).value = '');
+        }
+
+        function renderPaymentLinks() {
+            const tbody = document.getElementById('paymentLinksTableBody');
+            if (!tbody) return;
+            if (!data.paymentLinks || data.paymentLinks.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-secondary);">No payment links yet.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = data.paymentLinks.map(pl => `
+                <tr>
+                    <td>${escapeHtml(pl.customer)}</td>
+                    <td>&#8377;${pl.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+                    <td>${escapeHtml(pl.description || '&#8212;')}</td>
+                    <td>${pl.expiry || '&#8212;'}</td>
+                    <td><span class="badge paid">${escapeHtml(pl.status)}</span></td>
+                    <td><div class="actions"><button class="action-btn btn-danger" onclick="deletePaymentLink(${pl.id})">Delete</button></div></td>
+                </tr>
+            `).join('');
+        }
+
+        function deletePaymentLink(id) {
+            if (!confirm('Delete this payment link?')) return;
+            data.paymentLinks = data.paymentLinks.filter(pl => pl.id !== id);
+            saveData();
+            renderPaymentLinks();
+        }
+
+        // ===== PAYMENTS RECEIVED =====
+        function addPaymentReceived() {
+            const customer = document.getElementById('prCustomer').value.trim();
+            const amount = parseFloat(document.getElementById('prAmount').value);
+            const method = document.getElementById('prMethod').value;
+            const date = document.getElementById('prDate').value;
+            const note = document.getElementById('prNote').value.trim();
+            if (!customer || isNaN(amount) || amount <= 0) {
+                alert('Please enter a customer name and valid amount.');
+                return;
+            }
+            const payment = { id: Date.now(), customer, amount, method, date, note };
+            data.paymentsReceived.push(payment);
+            saveData();
+            updateDashboard();
+            renderPaymentsReceived();
+            ['prCustomer', 'prAmount', 'prNote', 'prDate'].forEach(id => document.getElementById(id).value = '');
+        }
+
+        function renderPaymentsReceived() {
+            const tbody = document.getElementById('paymentsReceivedTableBody');
+            if (!tbody) return;
+            if (!data.paymentsReceived || data.paymentsReceived.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-secondary);">No payments recorded yet.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = data.paymentsReceived.map(p => `
+                <tr>
+                    <td>${escapeHtml(p.customer)}</td>
+                    <td>&#8377;${p.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+                    <td>${escapeHtml(p.method)}</td>
+                    <td>${p.date || '&#8212;'}</td>
+                    <td>${escapeHtml(p.note || '&#8212;')}</td>
+                    <td><div class="actions"><button class="action-btn btn-danger" onclick="deletePaymentReceived(${p.id})">Delete</button></div></td>
+                </tr>
+            `).join('');
+        }
+
+        function deletePaymentReceived(id) {
+            if (!confirm('Delete this payment record?')) return;
+            data.paymentsReceived = data.paymentsReceived.filter(p => p.id !== id);
+            saveData();
+            updateDashboard();
+            renderPaymentsReceived();
+        }
+
+        // ===== RECURRING EXPENSES =====
+        function addRecurringExpense() {
+            const description = document.getElementById('reDescription').value.trim();
+            const amount = parseFloat(document.getElementById('reAmount').value);
+            const category = document.getElementById('reCategory').value.trim();
+            const frequency = document.getElementById('reFrequency').value;
+            const nextDate = document.getElementById('reNextDate').value;
+            if (!description || isNaN(amount) || amount <= 0) {
+                alert('Please enter a description and valid amount.');
+                return;
+            }
+            const re = { id: Date.now(), description, amount, category, frequency, nextDate };
+            data.recurringExpenses.push(re);
+            saveData();
+            renderRecurringExpenses();
+            ['reDescription', 'reAmount', 'reCategory', 'reNextDate'].forEach(id => document.getElementById(id).value = '');
+        }
+
+        function renderRecurringExpenses() {
+            const tbody = document.getElementById('recurringExpensesTableBody');
+            if (!tbody) return;
+            if (!data.recurringExpenses || data.recurringExpenses.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-secondary);">No recurring expenses yet.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = data.recurringExpenses.map(re => `
+                <tr>
+                    <td>${escapeHtml(re.description)}</td>
+                    <td>&#8377;${re.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+                    <td>${escapeHtml(re.category || '&#8212;')}</td>
+                    <td><span class="badge pending">${escapeHtml(re.frequency)}</span></td>
+                    <td>${re.nextDate || '&#8212;'}</td>
+                    <td><div class="actions"><button class="action-btn btn-danger" onclick="deleteRecurringExpense(${re.id})">Delete</button></div></td>
+                </tr>
+            `).join('');
+        }
+
+        function deleteRecurringExpense(id) {
+            if (!confirm('Delete this recurring expense?')) return;
+            data.recurringExpenses = data.recurringExpenses.filter(re => re.id !== id);
+            saveData();
+            renderRecurringExpenses();
+        }
+
+        // ===== DATA MODEL EXTENSION (new sales arrays) =====
+        (function () {
+            const _base = loadData;
+            loadData = function () {
+                _base();
+                if (!data.quotes) data.quotes = [];
+                if (!data.retainers) data.retainers = [];
+                if (!data.challans) data.challans = [];
+                if (!data.subscriptions) data.subscriptions = [];
+            };
+        })();
+
+        // ===== QUOTES =====
+        function _quoteBadgeClass(status) {
+            return status === 'Accepted' ? 'paid'
+                : status === 'Declined' ? 'overdue'
+                    : status === 'Sent' ? 'pending'
+                        : '';
+        }
+
+        function addQuote() {
+            const customer = document.getElementById('qCustomer').value.trim();
+            const amount = parseFloat(document.getElementById('qAmount').value);
+            const validUntil = document.getElementById('qValidUntil').value;
+            const status = document.getElementById('qStatus').value;
+            const notes = document.getElementById('qNotes').value.trim();
+            if (!customer || isNaN(amount) || amount <= 0) {
+                alert('Please enter a customer name and a valid amount.'); return;
+            }
+            data.quotes.push({ id: Date.now(), customer, amount, validUntil, status, notes });
+            saveData(); renderQuotes(); updateDashboard();
+            document.getElementById('qCustomer').value = '';
+            document.getElementById('qAmount').value = '';
+            document.getElementById('qValidUntil').value = '';
+            document.getElementById('qStatus').value = 'Draft';
+            document.getElementById('qNotes').value = '';
+        }
+
+        function deleteQuote(id) {
+            if (!confirm('Delete this quote?')) return;
+            data.quotes = data.quotes.filter(q => q.id !== id);
+            saveData(); renderQuotes(); updateDashboard();
+        }
+
+        function convertQuoteToInvoice(id) {
+            const q = data.quotes.find(q => q.id === id);
+            if (!q) return;
+            if (!confirm(`Convert quote for "${q.customer}" (₹${q.amount}) to an invoice?`)) return;
+            q.status = 'Accepted';
+            data.invoices.push({ id: Date.now(), customer: q.customer, amount: q.amount, dueDate: q.validUntil || '', status: 'Pending' });
+            saveData(); renderQuotes(); renderInvoices(); updateDashboard();
+        }
+
+        function renderQuotes() {
+            const tbody = document.getElementById('quotesTableBody');
+            if (!tbody) return;
+            if (!data.quotes || data.quotes.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="padding:24px;text-align:center;color:var(--text-secondary);">No quotes yet.</td></tr>'; return;
+            }
+            tbody.innerHTML = data.quotes.map(q => `
+                <tr style="border-bottom:1px solid var(--border);">
+                    <td style="padding:12px;">${escapeHtml(q.customer)}</td>
+                    <td style="padding:12px;">&#8377;${q.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+                    <td style="padding:12px;color:var(--text-secondary);">${q.validUntil || '&mdash;'}</td>
+                    <td style="padding:12px;"><span class="badge ${_quoteBadgeClass(q.status)}">${escapeHtml(q.status)}</span></td>
+                    <td style="padding:12px;color:var(--text-secondary);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escapeHtml(q.notes || '')}">${escapeHtml(q.notes || '&mdash;')}</td>
+                    <td style="padding:12px;">
+                        <div class="actions">
+                            ${q.status !== 'Accepted' ? `<button class="action-btn" onclick="convertQuoteToInvoice(${q.id})" style="color:var(--accent);">&rarr; Invoice</button>` : ''}
+                            <button class="action-btn btn-danger" onclick="deleteQuote(${q.id})">Delete</button>
+                        </div>
+                    </td>
+                </tr>`).join('');
+        }
+
+        // ===== RETAINER INVOICES =====
+        function _retainerBadgeClass(s) { return s === 'Active' ? 'paid' : s === 'Paused' ? 'pending' : 'overdue'; }
+
+        function addRetainer() {
+            const customer = document.getElementById('rtCustomer').value.trim();
+            const amount = parseFloat(document.getElementById('rtAmount').value);
+            const billingDay = parseInt(document.getElementById('rtBillingDay').value, 10);
+            const startDate = document.getElementById('rtStartDate').value;
+            const status = document.getElementById('rtStatus').value;
+            const notes = document.getElementById('rtNotes').value.trim();
+            if (!customer || isNaN(amount) || amount <= 0) { alert('Please enter a customer name and a valid monthly amount.'); return; }
+            if (isNaN(billingDay) || billingDay < 1 || billingDay > 28) { alert('Billing day must be between 1 and 28.'); return; }
+            data.retainers.push({ id: Date.now(), customer, amount, billingDay, startDate, status, notes });
+            saveData(); renderRetainers(); updateDashboard();
+            document.getElementById('rtCustomer').value = '';
+            document.getElementById('rtAmount').value = '';
+            document.getElementById('rtBillingDay').value = '';
+            document.getElementById('rtStartDate').value = '';
+            document.getElementById('rtStatus').value = 'Active';
+            document.getElementById('rtNotes').value = '';
+        }
+
+        function deleteRetainer(id) {
+            if (!confirm('Delete this retainer invoice?')) return;
+            data.retainers = data.retainers.filter(r => r.id !== id);
+            saveData(); renderRetainers(); updateDashboard();
+        }
+
+        function renderRetainers() {
+            const tbody = document.getElementById('retainersTableBody');
+            if (!tbody) return;
+            if (!data.retainers || data.retainers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="padding:24px;text-align:center;color:var(--text-secondary);">No retainer invoices yet.</td></tr>'; return;
+            }
+            tbody.innerHTML = data.retainers.map(r => `
+                <tr style="border-bottom:1px solid var(--border);">
+                    <td style="padding:12px;">${escapeHtml(r.customer)}</td>
+                    <td style="padding:12px;">&#8377;${r.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+                    <td style="padding:12px;text-align:center;">${r.billingDay}</td>
+                    <td style="padding:12px;color:var(--text-secondary);">${r.startDate || '&mdash;'}</td>
+                    <td style="padding:12px;"><span class="badge ${_retainerBadgeClass(r.status)}">${escapeHtml(r.status)}</span></td>
+                    <td style="padding:12px;color:var(--text-secondary);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escapeHtml(r.notes || '')}">${escapeHtml(r.notes || '&mdash;')}</td>
+                    <td style="padding:12px;"><div class="actions"><button class="action-btn btn-danger" onclick="deleteRetainer(${r.id})">Delete</button></div></td>
+                </tr>`).join('');
+        }
+
+        // ===== DELIVERY CHALLANS =====
+        function _challanBadgeClass(s) { return s === 'Delivered' ? 'paid' : s === 'Dispatched' ? 'pending' : 'overdue'; }
+
+        function addChallan() {
+            const challanNo = document.getElementById('dcChallanNo').value.trim();
+            const customer = document.getElementById('dcCustomer').value.trim();
+            const date = document.getElementById('dcDate').value;
+            const items = document.getElementById('dcItems').value.trim();
+            const status = document.getElementById('dcStatus').value;
+            const notes = document.getElementById('dcNotes').value.trim();
+            if (!challanNo || !customer) { alert('Please enter a Challan No and Customer Name.'); return; }
+            data.challans.push({ id: Date.now(), challanNo, customer, date, items, status, notes });
+            saveData(); renderChallans(); updateDashboard();
+            document.getElementById('dcChallanNo').value = '';
+            document.getElementById('dcCustomer').value = '';
+            document.getElementById('dcDate').value = '';
+            document.getElementById('dcItems').value = '';
+            document.getElementById('dcStatus').value = 'Dispatched';
+            document.getElementById('dcNotes').value = '';
+        }
+
+        function deleteChallan(id) {
+            if (!confirm('Delete this delivery challan?')) return;
+            data.challans = data.challans.filter(c => c.id !== id);
+            saveData(); renderChallans(); updateDashboard();
+        }
+
+        function renderChallans() {
+            const tbody = document.getElementById('challansTableBody');
+            if (!tbody) return;
+            if (!data.challans || data.challans.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="padding:24px;text-align:center;color:var(--text-secondary);">No challans yet.</td></tr>'; return;
+            }
+            tbody.innerHTML = data.challans.map(c => `
+                <tr style="border-bottom:1px solid var(--border);">
+                    <td style="padding:12px;font-weight:600;">${escapeHtml(c.challanNo)}</td>
+                    <td style="padding:12px;">${escapeHtml(c.customer)}</td>
+                    <td style="padding:12px;color:var(--text-secondary);">${c.date || '&mdash;'}</td>
+                    <td style="padding:12px;color:var(--text-secondary);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escapeHtml(c.items || '')}">${escapeHtml(c.items || '&mdash;')}</td>
+                    <td style="padding:12px;"><span class="badge ${_challanBadgeClass(c.status)}">${escapeHtml(c.status)}</span></td>
+                    <td style="padding:12px;color:var(--text-secondary);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escapeHtml(c.notes || '')}">${escapeHtml(c.notes || '&mdash;')}</td>
+                    <td style="padding:12px;"><div class="actions"><button class="action-btn btn-danger" onclick="deleteChallan(${c.id})">Delete</button></div></td>
+                </tr>`).join('');
+        }
+
+        // ===== SUBSCRIPTIONS =====
+        function _subscriptionBadgeClass(s) { return s === 'Active' ? 'paid' : s === 'Paused' ? 'pending' : 'overdue'; }
+
+        function addSubscription() {
+            const customer = document.getElementById('subCustomer').value.trim();
+            const planName = document.getElementById('subPlan').value.trim();
+            const amount = parseFloat(document.getElementById('subAmount').value);
+            const frequency = document.getElementById('subFrequency').value;
+            const nextBillingDate = document.getElementById('subNextBilling').value;
+            const status = document.getElementById('subStatus').value;
+            if (!customer || !planName || isNaN(amount) || amount <= 0) { alert('Please enter a customer name, plan name, and valid amount.'); return; }
+            data.subscriptions.push({ id: Date.now(), customer, planName, amount, frequency, nextBillingDate, status });
+            saveData(); renderSubscriptions(); updateDashboard();
+            document.getElementById('subCustomer').value = '';
+            document.getElementById('subPlan').value = '';
+            document.getElementById('subAmount').value = '';
+            document.getElementById('subFrequency').value = 'Monthly';
+            document.getElementById('subNextBilling').value = '';
+            document.getElementById('subStatus').value = 'Active';
+        }
+
+        function deleteSubscription(id) {
+            if (!confirm('Delete this subscription?')) return;
+            data.subscriptions = data.subscriptions.filter(s => s.id !== id);
+            saveData(); renderSubscriptions(); updateDashboard();
+        }
+
+        function renderSubscriptions() {
+            const tbody = document.getElementById('subscriptionsTableBody');
+            if (!tbody) return;
+            if (!data.subscriptions || data.subscriptions.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="padding:24px;text-align:center;color:var(--text-secondary);">No subscriptions yet.</td></tr>'; return;
+            }
+            tbody.innerHTML = data.subscriptions.map(s => `
+                <tr style="border-bottom:1px solid var(--border);">
+                    <td style="padding:12px;">${escapeHtml(s.customer)}</td>
+                    <td style="padding:12px;font-weight:600;">${escapeHtml(s.planName)}</td>
+                    <td style="padding:12px;">&#8377;${s.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+                    <td style="padding:12px;color:var(--text-secondary);">${escapeHtml(s.frequency)}</td>
+                    <td style="padding:12px;color:var(--text-secondary);">${s.nextBillingDate || '&mdash;'}</td>
+                    <td style="padding:12px;"><span class="badge ${_subscriptionBadgeClass(s.status)}">${escapeHtml(s.status)}</span></td>
+                    <td style="padding:12px;"><div class="actions"><button class="action-btn btn-danger" onclick="deleteSubscription(${s.id})">Delete</button></div></td>
+                </tr>`).join('');
+        }
+
         // ===== INIT =====
         loadData();
         renderInvoices();
         renderExpenses();
         renderInventory();
         renderCustomers();
+        renderPaymentLinks();
+        renderPaymentsReceived();
+        renderRecurringExpenses();
+        renderQuotes();
+        renderRetainers();
+        renderChallans();
+        renderSubscriptions();
         updateDashboard();
     </script>
 </body>
