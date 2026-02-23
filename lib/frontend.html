@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SME Business Manager</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ===== ROOT VARIABLES — DARK MODE (default) ===== */
+        :root {
+            --primary: #0f172a;
+            --secondary: #1e293b;
+            --accent: #10b981;
+            --accent-light: rgba(16, 185, 129, 0.15);
+            --danger: #f87171;
+            --warning: #fbbf24;
+            --success: #34d399;
+            --info: #60a5fa;
+            --purple: #a78bfa;
+            --orange: #fb923c;
+            --border: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --bg-body: linear-gradient(135deg, #0f172a 0%, #1a1f3a 100%);
+            --bg-card: #1e293b;
+            --bg-card2: #263248;
+            --bg-input: rgba(15, 23, 42, 0.6);
+            --bg-input-focus: rgba(15, 23, 42, 0.85);
+            --bg-sidebar: linear-gradient(180deg, #0f172a 0%, #1a1f3a 100%);
+            --bg-sidebar-border: rgba(255, 255, 255, 0.08);
+            --bg-header: rgba(30, 41, 59, 0.6);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.3);
+            --nav-link-color: #94a3b8;
+            --nav-link-hover-bg: rgba(16, 185, 129, 0.10);
+            --nav-link-active-bg: rgba(16, 185, 129, 0.15);
+        }
+
+        /* ===== LIGHT MODE (warm #e0dfb8 palette) ===== */
+        body.light {
+            --primary: #e0dfb8;
+            --secondary: #d4d3a0;
+            --accent: #6b6230;
+            --accent-light: rgba(107, 98, 48, 0.12);
+            --danger: #b91c1c;
+            --warning: #b45309;
+            --success: #166534;
+            --info: #1d4ed8;
+            --purple: #6d28d9;
+            --orange: #c2410c;
+            --border: #c8c79a;
+            --text-primary: #2d2b1e;
+            --text-secondary: #5a5640;
+            --bg-body: linear-gradient(135deg, #e0dfb8 0%, #d4d3a0 100%);
+            --bg-card: #f5f4e4;
+            --bg-card2: #eae9cc;
+            --bg-input: #fafaf0;
+            --bg-input-focus: #ffffff;
+            --bg-sidebar: linear-gradient(180deg, #d4d3a0 0%, #c8c79a 100%);
+            --bg-sidebar-border: #b8b78a;
+            --bg-header: rgba(224, 223, 184, 0.92);
+            --shadow: 0 10px 40px rgba(45, 43, 30, 0.18);
+            --shadow-card: 0 4px 24px rgba(45, 43, 30, 0.10);
+            --nav-link-color: #2d2b1e;
+            --nav-link-hover-bg: rgba(107, 98, 48, 0.12);
+            --nav-link-active-bg: rgba(107, 98, 48, 0.20);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-body);
+            color: var(--text-primary);
+            display: flex;
+            transition: background 0.35s ease, color 0.35s ease;
+        }
+
+        /* ===== SIDEBAR NAVIGATION ===== */
+        .sidebar {
+            width: 280px;
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--bg-sidebar-border);
+            display: flex;
+            flex-direction: column;
+            box-shadow: 2px 0 30px rgba(0, 0, 0, 0.15);
+            position: relative;
+            z-index: 100;
+            transition: background 0.35s ease, border-color 0.35s ease;
+        }
+
+        .logo {
+            padding: 30px 25px;
+            border-bottom: 1px solid var(--bg-sidebar-border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: border-color 0.35s ease;
+        }
+
+        .logo-icon {
+            font-size: 28px;
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--accent) 0%, #059669 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.3em;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            color: var(--nav-link-color);
+            transition: color 0.35s ease;
+        }
+
+        .nav-list {
+            list-style: none;
+            padding: 20px 0;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 25px;
+            color: var(--nav-link-color);
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            transition: all 0.3s ease;
+            font-size: 0.95em;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+            background: var(--nav-link-hover-bg);
+            padding-left: 30px;
+        }
+
+        .nav-link.active {
+            color: var(--accent);
+            background: var(--nav-link-active-bg);
+            border-left: 3px solid var(--accent);
+            padding-left: 22px;
+            font-weight: 600;
+        }
+
+        .nav-icon {
+            font-size: 1.3em;
+            width: 24px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--bg-body);
+            transition: background 0.35s ease;
+        }
+
+        .header {
+            padding: 25px 40px;
+            background: var(--bg-header);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(12px);
+            transition: background 0.35s ease, border-color 0.35s ease;
+        }
+
+        .header-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.8em;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px;
+        }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== DASHBOARD ===== */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 28px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-card);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -30%;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            opacity: 0.18;
+        }
+
+        /* Coloured accent blobs per card */
+        .stat-card.card-teal::before {
+            background: radial-gradient(circle, #10b981, transparent 70%);
+        }
+
+        .stat-card.card-rose::before {
+            background: radial-gradient(circle, #f43f5e, transparent 70%);
+        }
+
+        .stat-card.card-indigo::before {
+            background: radial-gradient(circle, #6366f1, transparent 70%);
+        }
+
+        .stat-card.card-amber::before {
+            background: radial-gradient(circle, #f59e0b, transparent 70%);
+        }
+
+        .stat-card.card-teal {
+            border-left: 3px solid #10b981;
+        }
+
+        .stat-card.card-rose {
+            border-left: 3px solid #f43f5e;
+        }
+
+        .stat-card.card-indigo {
+            border-left: 3px solid #6366f1;
+        }
+
+        .stat-card.card-amber {
+            border-left: 3px solid #f59e0b;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.18);
+        }
+
+        .stat-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-icon {
+            font-size: 1.6em;
+            margin-bottom: 14px;
+            background: var(--bg-card2);
+            width: 46px;
+            height: 46px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.82em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .stat-value {
+            font-family: 'Syne', sans-serif;
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .stat-card.card-teal .stat-value {
+            color: #10b981;
+        }
+
+        .stat-card.card-rose .stat-value {
+            color: #f43f5e;
+        }
+
+        .stat-card.card-indigo .stat-value {
+            color: #818cf8;
+        }
+
+        .stat-card.card-amber .stat-value {
+            color: #fbbf24;
+        }
+
+        .stat-change {
+            font-size: 0.8em;
+            color: var(--text-secondary);
+        }
+
+        .stat-change.positive {
+            color: var(--success);
+        }
+
+        /* ===== FORMS & TABLES ===== */
+        .form-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-card);
+            transition: background 0.35s, border-color 0.35s;
+        }
+
+        .form-title {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.4em;
+            font-weight: 700;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            color: var(--text-primary);
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        input[type="email"],
+        select,
+        textarea {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 15px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="date"]:focus,
+        input[type="email"]:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: var(--bg-input-focus);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.12);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* ===== BUTTONS ===== */
+        button {
+            padding: 12px 28px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981 0%, #0891b2 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(16, 185, 129, 0.35);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card2);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-danger {
+            background: rgba(244, 63, 94, 0.12);
+            color: var(--danger);
+            border: 1px solid rgba(244, 63, 94, 0.4);
+        }
+
+        .btn-danger:hover {
+            background: var(--danger);
+            color: white;
+            border-color: var(--danger);
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.8em;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        /* ===== THEME TOGGLE ===== */
+        .theme-toggle {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            border-radius: 50%;
+            background: var(--bg-card2);
+            border: 1px solid var(--border);
+            font-size: 1.1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-transform: none;
+            letter-spacing: 0;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            transform: rotate(20deg) scale(1.1);
+        }
+
+        /* ===== TABLES ===== */
+        .table-wrapper {
+            overflow-x: auto;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--bg-card2);
+            transition: background 0.35s ease;
+        }
+
+        th {
+            padding: 16px;
+            text-align: left;
+            font-weight: 700;
+            color: var(--text-primary);
+            border-bottom: 2px solid var(--border);
+            text-transform: uppercase;
+            font-size: 0.8em;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-primary);
+        }
+
+        tr:hover {
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        /* ===== BADGES & STATUS ===== */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 11px;
+            border-radius: 20px;
+            font-size: 0.73em;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge.paid,
+        .badge.success {
+            background: rgba(52, 211, 153, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(52, 211, 153, 0.3);
+        }
+
+        .badge.overdue,
+        .badge.danger {
+            background: rgba(244, 63, 94, 0.12);
+            color: #f43f5e;
+            border: 1px solid rgba(244, 63, 94, 0.25);
+        }
+
+        .badge.pending,
+        .badge.warning {
+            background: rgba(251, 191, 36, 0.12);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.25);
+        }
+
+        .badge.info {
+            background: rgba(96, 165, 250, 0.12);
+            color: #60a5fa;
+            border: 1px solid rgba(96, 165, 250, 0.25);
+        }
+
+        /* ===== ACTIONS ===== */
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            padding: 5px 12px;
+            font-size: 0.73em;
+            background: var(--bg-card2);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-transform: none;
+            letter-spacing: 0;
+            font-weight: 500;
+        }
+
+        .action-btn:hover {
+            background: rgba(244, 63, 94, 0.12);
+            color: #f43f5e;
+            border-color: rgba(244, 63, 94, 0.4);
+        }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            font-size: 1.1em;
+            margin-bottom: 25px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1200px) {
+            .sidebar {
+                width: 240px;
+            }
+
+            .content {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .logo {
+                padding: 15px 20px;
+                border-bottom: none;
+                border-right: 1px solid var(--border);
+            }
+
+            .nav-list {
+                display: flex;
+                padding: 0;
+                flex: 1;
+                overflow-x: auto;
+                overflow-y: visible;
+            }
+
+            .nav-link {
+                padding: 12px 15px;
+                white-space: nowrap;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 15px;
+                padding: 20px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+
+            table {
+                font-size: 0.85em;
+            }
+
+            th,
+            td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ===== SIDEBAR ===== -->
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-icon">💼</div>
+            <div class="logo-text">SME Pro</div>
+        </div>
+        <ul class="nav-list">
+            <li class="nav-item">
+                <button class="nav-link active" onclick="switchSection('dashboard')">
+                    <span class="nav-icon">📊</span>
+                    <span>Dashboard</span>
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" onclick="switchSection('invoices')">
+                    <span class="nav-icon">📄</span>
+                    <span>Invoices</span>
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" onclick="switchSection('expenses')">
+                    <span class="nav-icon">💸</span>
+                    <span>Expenses</span>
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" onclick="switchSection('inventory')">
+                    <span class="nav-icon">📦</span>
+                    <span>Inventory</span>
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" onclick="switchSection('customers')">
+                    <span class="nav-icon">👥</span>
+                    <span>Customers</span>
+                </button>
+            </li>
+            <li class="nav-item">
+                <button class="nav-link" onclick="switchSection('reports')">
+                    <span class="nav-icon">📈</span>
+                    <span>Reports</span>
+                </button>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="main-container">
+        <header class="header">
+            <h1 class="header-title" id="pageTitle">Dashboard</h1>
+            <div class="header-actions">
+                <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn"
+                    title="Toggle Light/Dark Mode">🌙</button>
+                <button class="btn-secondary" onclick="openModal('settingsModal')">⚙️ Settings</button>
+                <button class="btn-secondary" onclick="openModal('profileModal')">👤 Profile</button>
+            </div>
+        </header>
+
+        <div class="content">
+            <!-- DASHBOARD SECTION -->
+            <section id="dashboard" class="section active">
+                <div class="dashboard-grid">
+                    <div class="stat-card card-teal">
+                        <div class="stat-content">
+                            <div class="stat-icon">💰</div>
+                            <div class="stat-label">Total Revenue</div>
+                            <div class="stat-value" id="totalRevenue">₹0</div>
+                            <div class="stat-change" id="revChange">No paid invoices yet</div>
+                        </div>
+                    </div>
+                    <div class="stat-card card-rose">
+                        <div class="stat-content">
+                            <div class="stat-icon">💸</div>
+                            <div class="stat-label">Total Expenses</div>
+                            <div class="stat-value" id="totalExpenses">₹0</div>
+                            <div class="stat-change" id="expChange">No expenses recorded</div>
+                        </div>
+                    </div>
+                    <div class="stat-card card-indigo">
+                        <div class="stat-content">
+                            <div class="stat-icon">📈</div>
+                            <div class="stat-label">Net Profit</div>
+                            <div class="stat-value" id="netProfit">₹0</div>
+                            <div class="stat-change" id="profitChange">Revenue minus expenses</div>
+                        </div>
+                    </div>
+                    <div class="stat-card card-amber">
+                        <div class="stat-content">
+                            <div class="stat-icon">👥</div>
+                            <div class="stat-label">Active Customers</div>
+                            <div class="stat-value" id="activeCustomers">0</div>
+                            <div class="stat-change" id="custChange">No customers added</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="form-title">📈 Quick Summary</h2>
+                    <p style="color: var(--text-secondary); line-height: 1.8;">
+                        Welcome to your business management dashboard. Navigate through Invoices, Expenses, Inventory,
+                        and Customers to manage your SME effectively. All data is saved locally in your browser for
+                        quick access.
+                    </p>
+                </div>
+            </section>
+
+            <!-- INVOICES SECTION -->
+            <section id="invoices" class="section">
+                <div class="form-section">
+                    <h2 class="form-title">➕ Create New Invoice</h2>
+                    <form id="invoiceForm" onsubmit="addInvoice(event)">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Customer Name *</label>
+                                <input type="text" id="invCustomer" placeholder="Enter customer name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Amount *</label>
+                                <input type="number" id="invAmount" placeholder="0.00" step="0.01" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Due Date *</label>
+                                <input type="date" id="invDueDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select id="invStatus">
+                                    <option>Pending</option>
+                                    <option>Paid</option>
+                                    <option>Overdue</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn-primary">Create Invoice</button>
+                            <button type="reset" class="btn-secondary">Clear Form</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="form-title">📋 Invoice List</h2>
+                    <div class="table-wrapper">
+                        <table id="invoicesTable">
+                            <thead>
+                                <tr>
+                                    <th>Customer</th>
+                                    <th>Amount</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="invoicesList">
+                                <tr>
+                                    <td colspan="5" style="text-align: center; color: var(--text-secondary);">No
+                                        invoices yet</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- EXPENSES SECTION -->
+            <section id="expenses" class="section">
+                <div class="form-section">
+                    <h2 class="form-title">➕ Record Expense</h2>
+                    <form id="expenseForm" onsubmit="addExpense(event)">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Description *</label>
+                                <input type="text" id="expDesc" placeholder="e.g., Office supplies" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Amount *</label>
+                                <input type="number" id="expAmount" placeholder="0.00" step="0.01" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Category *</label>
+                                <select id="expCategory" required>
+                                    <option>Select Category</option>
+                                    <option>Office Supplies</option>
+                                    <option>Utilities</option>
+                                    <option>Rent</option>
+                                    <option>Salaries</option>
+                                    <option>Marketing</option>
+                                    <option>Equipment</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Date *</label>
+                                <input type="date" id="expDate" required>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn-primary">Add Expense</button>
+                            <button type="reset" class="btn-secondary">Clear Form</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="form-title">💰 Expense Log</h2>
+                    <div class="table-wrapper">
+                        <table id="expensesTable">
+                            <thead>
+                                <tr>
+                                    <th>Description</th>
+                                    <th>Category</th>
+                                    <th>Amount</th>
+                                    <th>Date</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="expensesList">
+                                <tr>
+                                    <td colspan="5" style="text-align: center; color: var(--text-secondary);">No
+                                        expenses recorded</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- INVENTORY SECTION -->
+            <section id="inventory" class="section">
+                <div class="form-section">
+                    <h2 class="form-title">➕ Add Product</h2>
+                    <form id="inventoryForm" onsubmit="addProduct(event)">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Product Name *</label>
+                                <input type="text" id="prodName" placeholder="Enter product name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>SKU/Code *</label>
+                                <input type="text" id="prodSKU" placeholder="e.g., SKU-001" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Quantity *</label>
+                                <input type="number" id="prodQty" placeholder="0" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Unit Price *</label>
+                                <input type="number" id="prodPrice" placeholder="0.00" step="0.01" min="0" required>
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn-primary">Add Product</button>
+                            <button type="reset" class="btn-secondary">Clear Form</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="form-title">📦 Inventory</h2>
+                    <div class="table-wrapper">
+                        <table id="inventoryTable">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>SKU</th>
+                                    <th>Quantity</th>
+                                    <th>Unit Price</th>
+                                    <th>Total Value</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventoryList">
+                                <tr>
+                                    <td colspan="6" style="text-align: center; color: var(--text-secondary);">No
+                                        products added</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CUSTOMERS SECTION -->
+            <section id="customers" class="section">
+                <div class="form-section">
+                    <h2 class="form-title">➕ Add Customer</h2>
+                    <form id="customerForm" onsubmit="addCustomer(event)">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Company Name *</label>
+                                <input type="text" id="custName" placeholder="Enter company name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Contact Email *</label>
+                                <input type="email" id="custEmail" placeholder="Enter email" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Phone *</label>
+                                <input type="text" id="custPhone" placeholder="Enter phone number" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Address</label>
+                                <input type="text" id="custAddress" placeholder="Enter address">
+                            </div>
+                        </div>
+                        <div class="btn-group">
+                            <button type="submit" class="btn-primary">Add Customer</button>
+                            <button type="reset" class="btn-secondary">Clear Form</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="form-title">👥 Customer List</h2>
+                    <div class="table-wrapper">
+                        <table id="customersTable">
+                            <thead>
+                                <tr>
+                                    <th>Company</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customersList">
+                                <tr>
+                                    <td colspan="5" style="text-align: center; color: var(--text-secondary);">No
+                                        customers added</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- REPORTS SECTION -->
+            <section id="reports" class="section">
+                <div class="form-section">
+                    <h2 class="form-title">📊 Business Summary</h2>
+                    <div class="dashboard-grid">
+                        <div class="stat-card card-teal">
+                            <div class="stat-content">
+                                <div class="stat-label">Total Invoices</div>
+                                <div class="stat-value" id="reportTotalInvoices">0</div>
+                            </div>
+                        </div>
+                        <div class="stat-card card-indigo">
+                            <div class="stat-content">
+                                <div class="stat-label">Total Inventory Value</div>
+                                <div class="stat-value" id="reportInventoryValue">₹0</div>
+                            </div>
+                        </div>
+                        <div class="stat-card card-amber">
+                            <div class="stat-content">
+                                <div class="stat-label">Total Customers</div>
+                                <div class="stat-value" id="reportTotalCustomers">0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2 class="form-title">💼 Revenue & Expenses</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                        <strong>Revenue:</strong> <span id="reportRevenue">₹0</span> |
+                        <strong>Expenses:</strong> <span id="reportExpenses">₹0</span> |
+                        <strong>Net:</strong> <span id="reportNet">₹0</span>
+                    </p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- ===== SETTINGS MODAL ===== -->
+    <div id="settingsModal"
+        style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9999; align-items:center; justify-content:center;">
+        <div
+            style="background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:40px; width:480px; max-width:90vw; position:relative; box-shadow:var(--shadow);">
+            <button onclick="closeModal('settingsModal')"
+                style="position:absolute; top:16px; right:16px; background:none; border:none; color:var(--text-secondary); font-size:1.4em; cursor:pointer; padding:4px;">✕</button>
+            <h2
+                style="font-family:'Syne',sans-serif; font-size:1.5em; font-weight:700; margin-bottom:28px; display:flex; align-items:center; gap:10px;">
+                ⚙️ Settings</h2>
+            <div style="display:flex; flex-direction:column; gap:20px;">
+                <div class="form-group">
+                    <label>Business Name</label>
+                    <input type="text" id="settingsBizName" placeholder="e.g., My SME Pvt. Ltd.">
+                </div>
+                <div class="form-group">
+                    <label>Currency Symbol</label>
+                    <select id="settingsCurrency">
+                        <option value="₹" selected>₹ Indian Rupee (INR)</option>
+                        <option value="$">$ US Dollar (USD)</option>
+                        <option value="€">€ Euro (EUR)</option>
+                        <option value="£">£ British Pound (GBP)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Financial Year Start</label>
+                    <select id="settingsFYStart">
+                        <option value="April" selected>April (Indian FY)</option>
+                        <option value="January">January</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>GST / Tax Number</label>
+                    <input type="text" id="settingsGST" placeholder="e.g., 22ABCDE1234F1Z5">
+                </div>
+            </div>
+            <div class="btn-group" style="margin-top:28px;">
+                <button class="btn-primary" onclick="saveSettings()">Save Settings</button>
+                <button class="btn-secondary" onclick="closeModal('settingsModal')">Cancel</button>
+            </div>
+            <!-- Danger Zone -->
+            <div style="margin-top:32px; padding-top:24px; border-top:1px solid var(--border);">
+                <div
+                    style="font-size:0.78em; font-weight:700; text-transform:uppercase; letter-spacing:1px; color:var(--danger); margin-bottom:12px;">
+                    ⚠️ Danger Zone</div>
+                <p style="font-size:0.85em; color:var(--text-secondary); margin-bottom:14px; line-height:1.6;">This will
+                    permanently erase <strong>all</strong> invoices, expenses, inventory, customers, settings and
+                    profile data. This action cannot be undone.</p>
+                <button class="btn-danger" style="width:100%;" onclick="resetApp()">🗑️ Reset Entire App</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PROFILE MODAL ===== -->
+    <div id="profileModal"
+        style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:9999; align-items:center; justify-content:center;">
+        <div
+            style="background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:40px; width:480px; max-width:90vw; position:relative; box-shadow:var(--shadow);">
+            <button onclick="closeModal('profileModal')"
+                style="position:absolute; top:16px; right:16px; background:none; border:none; color:var(--text-secondary); font-size:1.4em; cursor:pointer; padding:4px;">✕</button>
+            <h2
+                style="font-family:'Syne',sans-serif; font-size:1.5em; font-weight:700; margin-bottom:28px; display:flex; align-items:center; gap:10px;">
+                👤 My Profile</h2>
+            <div style="display:flex; align-items:center; gap:20px; margin-bottom:28px;">
+                <div
+                    style="width:72px; height:72px; border-radius:50%; background:linear-gradient(135deg,var(--accent) 0%,#059669 100%); display:flex; align-items:center; justify-content:center; font-size:2em; flex-shrink:0;">
+                    👤</div>
+                <div>
+                    <div id="profileDisplayName"
+                        style="font-family:'Syne',sans-serif; font-size:1.2em; font-weight:700;">Owner</div>
+                    <div id="profileDisplayEmail" style="color:var(--text-secondary); font-size:0.9em;">
+                        owner@mybusiness.com</div>
+                </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:20px;">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="profileName" placeholder="Your full name">
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="profileEmail" placeholder="your@email.com">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <input type="text" id="profilePhone" placeholder="+91 98765 43210">
+                </div>
+                <div class="form-group">
+                    <label>Role / Designation</label>
+                    <input type="text" id="profileRole" placeholder="e.g., Owner, Manager">
+                </div>
+            </div>
+            <div class="btn-group" style="margin-top:28px;">
+                <button class="btn-primary" onclick="saveProfile()">Save Profile</button>
+                <button class="btn-secondary" onclick="closeModal('profileModal')">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // ===== DATA STORAGE =====
+        let data = {
+            invoices: [],
+            expenses: [],
+            inventory: [],
+            customers: []
+        };
+
+        // Load data from localStorage
+        function loadData() {
+            const saved = localStorage.getItem('smeData');
+            if (saved) {
+                data = JSON.parse(saved);
+            }
+        }
+
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem('smeData', JSON.stringify(data));
+            updateDashboard();
+        }
+
+        // ===== NAVIGATION =====
+        function switchSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+
+            // Remove active from nav
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Show selected section
+            document.getElementById(sectionId).classList.add('active');
+
+            // Mark nav as active
+            event.target.closest('.nav-link').classList.add('active');
+
+            // Update header title
+            const titles = {
+                dashboard: 'Dashboard',
+                invoices: 'Invoices',
+                expenses: 'Expenses',
+                inventory: 'Inventory',
+                customers: 'Customers',
+                reports: 'Reports'
+            };
+            document.getElementById('pageTitle').textContent = titles[sectionId];
+        }
+
+        // ===== INVOICES =====
+        function addInvoice(e) {
+            e.preventDefault();
+            const invoice = {
+                id: Date.now(),
+                customer: document.getElementById('invCustomer').value,
+                amount: parseFloat(document.getElementById('invAmount').value),
+                dueDate: document.getElementById('invDueDate').value,
+                status: document.getElementById('invStatus').value
+            };
+            data.invoices.push(invoice);
+            saveData();
+            renderInvoices();
+            document.getElementById('invoiceForm').reset();
+        }
+
+        function renderInvoices() {
+            const tbody = document.getElementById('invoicesList');
+            if (data.invoices.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-secondary);">No invoices yet</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = data.invoices.map(inv => {
+                const statusColors = { Paid: '#34d399', Pending: '#fbbf24', Overdue: '#f43f5e' };
+                const nextStatus = { Pending: 'Paid', Paid: 'Overdue', Overdue: 'Pending' };
+                const next = nextStatus[inv.status] || 'Pending';
+                const col = statusColors[inv.status] || 'var(--accent)';
+                return `
+                <tr>
+                    <td>${escapeHtml(inv.customer)}</td>
+                    <td>₹${inv.amount.toFixed(2)}</td>
+                    <td>${inv.dueDate}</td>
+                    <td><span class="badge ${inv.status.toLowerCase()}">${inv.status}</span></td>
+                    <td>
+                        <div class="actions">
+                            <button class="action-btn" style="color:${col}; border-color:${col}40;" onclick="updateInvoiceStatus(${inv.id})" title="Click to change to ${next}">&#8635; ${next}</button>
+                            <button class="action-btn" onclick="deleteInvoice(${inv.id})">Delete</button>
+                        </div>
+                    </td>
+                </tr>`;
+            }).join('');
+        }
+
+        function updateInvoiceStatus(id) {
+            const cycle = { Pending: 'Paid', Paid: 'Overdue', Overdue: 'Pending' };
+            const inv = data.invoices.find(i => i.id === id);
+            if (!inv) return;
+            inv.status = cycle[inv.status] || 'Pending';
+            saveData();
+            renderInvoices();
+        }
+
+        function deleteInvoice(id) {
+            data.invoices = data.invoices.filter(inv => inv.id !== id);
+            saveData();
+            renderInvoices();
+        }
+
+        // ===== EXPENSES =====
+        function addExpense(e) {
+            e.preventDefault();
+            const expense = {
+                id: Date.now(),
+                description: document.getElementById('expDesc').value,
+                amount: parseFloat(document.getElementById('expAmount').value),
+                category: document.getElementById('expCategory').value,
+                date: document.getElementById('expDate').value
+            };
+            data.expenses.push(expense);
+            saveData();
+            renderExpenses();
+            document.getElementById('expenseForm').reset();
+        }
+
+        function renderExpenses() {
+            const tbody = document.getElementById('expensesList');
+            if (data.expenses.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-secondary);">No expenses recorded</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = data.expenses.map(exp => `
+                <tr>
+                    <td>${escapeHtml(exp.description)}</td>
+                    <td>${exp.category}</td>
+                    <td>₹${exp.amount.toFixed(2)}</td>
+                    <td>${exp.date}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="action-btn" onclick="deleteExpense(${exp.id})">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function deleteExpense(id) {
+            data.expenses = data.expenses.filter(exp => exp.id !== id);
+            saveData();
+            renderExpenses();
+        }
+
+        // ===== INVENTORY =====
+        function addProduct(e) {
+            e.preventDefault();
+            const product = {
+                id: Date.now(),
+                name: document.getElementById('prodName').value,
+                sku: document.getElementById('prodSKU').value,
+                quantity: parseInt(document.getElementById('prodQty').value),
+                price: parseFloat(document.getElementById('prodPrice').value)
+            };
+            data.inventory.push(product);
+            saveData();
+            renderInventory();
+            document.getElementById('inventoryForm').reset();
+        }
+
+        function renderInventory() {
+            const tbody = document.getElementById('inventoryList');
+            if (data.inventory.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--text-secondary);">No products added</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = data.inventory.map(prod => `
+                <tr>
+                    <td>${escapeHtml(prod.name)}</td>
+                    <td>${escapeHtml(prod.sku)}</td>
+                    <td>${prod.quantity}</td>
+                    <td>₹${prod.price.toFixed(2)}</td>
+                    <td>₹${(prod.quantity * prod.price).toFixed(2)}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="action-btn" onclick="deleteProduct(${prod.id})">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function deleteProduct(id) {
+            data.inventory = data.inventory.filter(prod => prod.id !== id);
+            saveData();
+            renderInventory();
+        }
+
+        // ===== CUSTOMERS =====
+        function addCustomer(e) {
+            e.preventDefault();
+            const customer = {
+                id: Date.now(),
+                name: document.getElementById('custName').value,
+                email: document.getElementById('custEmail').value,
+                phone: document.getElementById('custPhone').value,
+                address: document.getElementById('custAddress').value
+            };
+            data.customers.push(customer);
+            saveData();
+            renderCustomers();
+            document.getElementById('customerForm').reset();
+        }
+
+        function renderCustomers() {
+            const tbody = document.getElementById('customersList');
+            if (data.customers.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-secondary);">No customers added</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = data.customers.map(cust => `
+                <tr>
+                    <td>${escapeHtml(cust.name)}</td>
+                    <td>${escapeHtml(cust.email)}</td>
+                    <td>${escapeHtml(cust.phone)}</td>
+                    <td>${escapeHtml(cust.address)}</td>
+                    <td>
+                        <div class="actions">
+                            <button class="action-btn" onclick="deleteCustomer(${cust.id})">Delete</button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function deleteCustomer(id) {
+            data.customers = data.customers.filter(cust => cust.id !== id);
+            saveData();
+            renderCustomers();
+        }
+
+        // ===== DASHBOARD STATS =====
+        function updateDashboard() {
+            const totalRevenue = data.invoices
+                .filter(inv => inv.status === 'Paid')
+                .reduce((sum, inv) => sum + inv.amount, 0);
+
+            const totalExpenses = data.expenses.reduce((sum, exp) => sum + exp.amount, 0);
+            const netProfit = totalRevenue - totalExpenses;
+
+            document.getElementById('totalRevenue').textContent = '₹' + totalRevenue.toFixed(2);
+            document.getElementById('totalExpenses').textContent = '₹' + totalExpenses.toFixed(2);
+            document.getElementById('netProfit').textContent = '₹' + netProfit.toFixed(2);
+            document.getElementById('activeCustomers').textContent = data.customers.length;
+
+            // Dynamic stat-change subtexts
+            const paidCount = data.invoices.filter(i => i.status === 'Paid').length;
+            const pendingCount = data.invoices.filter(i => i.status === 'Pending').length;
+            const revEl = document.getElementById('revChange');
+            revEl.textContent = paidCount > 0 ? `${paidCount} paid invoice${paidCount > 1 ? 's' : ''}` : 'No paid invoices yet';
+            revEl.className = 'stat-change' + (paidCount > 0 ? ' positive' : '');
+
+            const expEl = document.getElementById('expChange');
+            expEl.textContent = data.expenses.length > 0 ? `${data.expenses.length} expense${data.expenses.length > 1 ? 's' : ''} recorded` : 'No expenses recorded';
+
+            const profEl = document.getElementById('profitChange');
+            if (netProfit > 0) { profEl.textContent = '↑ In profit'; profEl.className = 'stat-change positive'; }
+            else if (netProfit < 0) { profEl.textContent = '↓ Running at a loss'; profEl.className = 'stat-change'; }
+            else { profEl.textContent = 'Revenue minus expenses'; profEl.className = 'stat-change'; }
+
+            const custEl = document.getElementById('custChange');
+            custEl.textContent = data.customers.length > 0 ? `${data.customers.length} customer${data.customers.length > 1 ? 's' : ''} total` : 'No customers added';
+
+            // Reports
+            document.getElementById('reportTotalInvoices').textContent = data.invoices.length;
+            document.getElementById('reportTotalCustomers').textContent = data.customers.length;
+
+            const inventoryValue = data.inventory.reduce((sum, prod) => sum + (prod.quantity * prod.price), 0);
+            document.getElementById('reportInventoryValue').textContent = '₹' + inventoryValue.toFixed(2);
+
+            document.getElementById('reportRevenue').textContent = '₹' + totalRevenue.toFixed(2);
+            document.getElementById('reportExpenses').textContent = '₹' + totalExpenses.toFixed(2);
+            document.getElementById('reportNet').textContent = '₹' + netProfit.toFixed(2);
+        }
+
+        // ===== UTILITIES =====
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        // ===== THEME TOGGLE =====
+        function toggleTheme() {
+            const isLight = document.body.classList.toggle('light');
+            document.getElementById('themeBtn').textContent = isLight ? '☀️' : '🌙';
+            localStorage.setItem('smeTheme', isLight ? 'light' : 'dark');
+        }
+
+        // Load saved theme on start — light mode is the default
+        (function () {
+            const saved = localStorage.getItem('smeTheme');
+            if (saved === 'dark') {
+                // Dark explicitly selected — stay dark
+                document.getElementById('themeBtn').textContent = '🌙';
+            } else {
+                // Default to light (no preference saved, or 'light' saved)
+                document.body.classList.add('light');
+                document.getElementById('themeBtn').textContent = '☀️';
+            }
+        })();
+
+        // ===== MODAL HELPERS =====
+        function openModal(id) {
+            const m = document.getElementById(id);
+            m.style.display = 'flex';
+            // Pre-fill from localStorage
+            if (id === 'settingsModal') {
+                const s = JSON.parse(localStorage.getItem('smeSettings') || '{}');
+                if (s.bizName) document.getElementById('settingsBizName').value = s.bizName;
+                if (s.currency) document.getElementById('settingsCurrency').value = s.currency;
+                if (s.fyStart) document.getElementById('settingsFYStart').value = s.fyStart;
+                if (s.gst) document.getElementById('settingsGST').value = s.gst;
+            }
+            if (id === 'profileModal') {
+                const p = JSON.parse(localStorage.getItem('smeProfile') || '{}');
+                if (p.name) { document.getElementById('profileName').value = p.name; document.getElementById('profileDisplayName').textContent = p.name; }
+                if (p.email) { document.getElementById('profileEmail').value = p.email; document.getElementById('profileDisplayEmail').textContent = p.email; }
+                if (p.phone) document.getElementById('profilePhone').value = p.phone;
+                if (p.role) document.getElementById('profileRole').value = p.role;
+            }
+        }
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+        }
+        // Close modal on backdrop click
+        document.addEventListener('click', function (e) {
+            ['settingsModal', 'profileModal'].forEach(id => {
+                const m = document.getElementById(id);
+                if (e.target === m) closeModal(id);
+            });
+        });
+
+        function saveSettings() {
+            const s = {
+                bizName: document.getElementById('settingsBizName').value,
+                currency: document.getElementById('settingsCurrency').value,
+                fyStart: document.getElementById('settingsFYStart').value,
+                gst: document.getElementById('settingsGST').value
+            };
+            localStorage.setItem('smeSettings', JSON.stringify(s));
+            closeModal('settingsModal');
+            alert('✅ Settings saved successfully!');
+        }
+
+        function saveProfile() {
+            const p = {
+                name: document.getElementById('profileName').value,
+                email: document.getElementById('profileEmail').value,
+                phone: document.getElementById('profilePhone').value,
+                role: document.getElementById('profileRole').value
+            };
+            localStorage.setItem('smeProfile', JSON.stringify(p));
+            closeModal('profileModal');
+            alert('✅ Profile saved successfully!');
+        }
+
+        function resetApp() {
+            const confirmed = confirm(
+                '⚠️ RESET ENTIRE APP?\n\n' +
+                'This will permanently delete:\n' +
+                '  • All Invoices\n  • All Expenses\n  • All Inventory\n  • All Customers\n  • Settings & Profile\n\n' +
+                'This cannot be undone. Are you absolutely sure?'
+            );
+            if (!confirmed) return;
+            // Double-confirm for safety
+            const reconfirmed = confirm('🗑️ Last warning — click OK to permanently reset everything.');
+            if (!reconfirmed) return;
+            localStorage.removeItem('smeData');
+            localStorage.removeItem('smeSettings');
+            localStorage.removeItem('smeProfile');
+            localStorage.removeItem('smeTheme');
+            location.reload();
+        }
+
+        // ===== INIT =====
+        loadData();
+        renderInvoices();
+        renderExpenses();
+        renderInventory();
+        renderCustomers();
+        updateDashboard();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,4 @@
+id,name,price,unit,active
+p1,Web Design,1500,project,true
+p2,SEO Consultation,150,hour,true
+p3,Hosting Maintenance,50,month,true

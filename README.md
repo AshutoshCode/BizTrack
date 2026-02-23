@@ -1,4 +1,6 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BizTrack
+
+BizTrack is a simple, no-code friendly invoice and expense tracking application for small businesses.
 
 ## Getting Started
 
@@ -16,9 +18,13 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Documentation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- [**Complete Walkthrough Guide**](docs/COMPLETE_WALKTHROUGH.md) (Start Here!)
+- [Project Details](docs/PROJECT_DETAILS.md)
+- [Deployment Guide](docs/DEPLOYMENT.md)
+- [Airtable Integration Guide](docs/AIRTABLE_GUIDE.md)
+- [GitHub Contribution Guide](docs/GITHUB_GUIDE.md)
 
 ## Learn More
 
@@ -28,9 +34,3 @@ To learn more about Next.js, take a look at the following resources:
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

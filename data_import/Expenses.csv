@@ -1,0 +1,16 @@
+id,description,amount,category,date
+e1,Office Rent,1200,Rent,2023-10-01
+e2,Internet Bill,85,Utilities,2023-10-05
+e3,Adobe CC Subscription,55,Software,2023-10-10
+e4,Team Lunch,150,Meals,2023-10-12
+e5,Hosting Fees,29,Software,2023-10-15
+e6,Client Meeting Coffee,15,Meals,2023-10-18
+e7,Office Supplies,45,Supplies,2023-10-20
+e8,Electricity Bill,110,Utilities,2023-11-01
+e9,Zoom Subscription,15,Software,2023-11-02
+e10,Travel to Client,75,Travel,2023-11-05
+e11,Printer Paper,20,Supplies,2023-11-08
+e12,Web Domain Renewal,12,Software,2023-11-10
+e13,Coffee Beans,30,Supplies,2023-11-12
+e14,Taxi Ride,25,Travel,2023-11-15
+e15,Slack Subscription,8,Software,2023-11-18
