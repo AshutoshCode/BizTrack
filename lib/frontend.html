@@ -2003,9 +2003,9 @@
             const totalExpenses = data.expenses.reduce((sum, exp) => sum + exp.amount, 0);
             const netProfit = totalRevenue - totalExpenses;
 
-            document.getElementById('totalRevenue').textContent = '&#8377;' + totalRevenue.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-            document.getElementById('totalExpenses').textContent = '&#8377;' + totalExpenses.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-            document.getElementById('netProfit').textContent = '&#8377;' + netProfit.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+            document.getElementById('totalRevenue').textContent = '₹' + totalRevenue.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+            document.getElementById('totalExpenses').textContent = '₹' + totalExpenses.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+            document.getElementById('netProfit').textContent = '₹' + netProfit.toLocaleString('en-IN', { minimumFractionDigits: 2 });
             document.getElementById('activeCustomers').textContent = data.customers.length;
 
             // Stat-change subtexts
@@ -2022,8 +2022,8 @@
             expEl.textContent = data.expenses.length > 0 ? `${data.expenses.length} expense${data.expenses.length > 1 ? 's' : ''} recorded` : 'No expenses recorded';
 
             const profEl = document.getElementById('profitChange');
-            if (netProfit > 0) { profEl.textContent = '&#8593; In profit'; profEl.className = 'stat-change positive'; }
-            else if (netProfit < 0) { profEl.textContent = '&#8595; Running at a loss'; profEl.className = 'stat-change'; }
+            if (netProfit > 0) { profEl.textContent = '↑ In profit'; profEl.className = 'stat-change positive'; }
+            else if (netProfit < 0) { profEl.textContent = '↓ Running at a loss'; profEl.className = 'stat-change'; }
             else { profEl.textContent = 'Revenue minus expenses'; profEl.className = 'stat-change'; }
 
             const custEl = document.getElementById('custChange');
@@ -2034,11 +2034,11 @@
             document.getElementById('reportTotalCustomers').textContent = data.customers.length;
 
             const inventoryValue = data.inventory.reduce((sum, prod) => sum + (prod.quantity * prod.price), 0);
-            document.getElementById('reportInventoryValue').textContent = '&#8377;' + inventoryValue.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+            document.getElementById('reportInventoryValue').textContent = '₹' + inventoryValue.toLocaleString('en-IN', { minimumFractionDigits: 2 });
 
-            document.getElementById('reportRevenue').textContent = '&#8377;' + totalRevenue.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-            document.getElementById('reportExpenses').textContent = '&#8377;' + totalExpenses.toLocaleString('en-IN', { minimumFractionDigits: 2 });
-            document.getElementById('reportNet').textContent = '&#8377;' + netProfit.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+            document.getElementById('reportRevenue').textContent = '₹' + totalRevenue.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+            document.getElementById('reportExpenses').textContent = '₹' + totalExpenses.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+            document.getElementById('reportNet').textContent = '₹' + netProfit.toLocaleString('en-IN', { minimumFractionDigits: 2 });
         }
 
         // ===== UTILITIES =====
