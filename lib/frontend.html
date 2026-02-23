@@ -1370,16 +1370,20 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Category *</label>
-                                    <select id="expCategory" required>
-                                        <option>Select Category</option>
-                                        <option>Office Supplies</option>
-                                        <option>Utilities</option>
-                                        <option>Rent</option>
-                                        <option>Salaries</option>
-                                        <option>Marketing</option>
-                                        <option>Equipment</option>
-                                        <option>Other</option>
-                                    </select>
+                                    <input type="text" id="expCategory" list="expCategoryList"
+                                        placeholder="Select or type a category" required autocomplete="off">
+                                    <datalist id="expCategoryList">
+                                        <option value="Office Supplies">
+                                        <option value="Utilities">
+                                        <option value="Rent">
+                                        <option value="Salaries">
+                                        <option value="Marketing">
+                                        <option value="Equipment">
+                                        <option value="Travel">
+                                        <option value="Software">
+                                        <option value="Maintenance">
+                                        <option value="Other">
+                                    </datalist>
                                 </div>
                                 <div class="form-group">
                                     <label>Date *</label>
@@ -1988,31 +1992,38 @@
 
         // ===== DASHBOARD STATS =====
         function updateDashboard() {
-            const totalRevenue = data.invoices
+            // Revenue = paid invoices + all payments received
+            const invoiceRevenue = data.invoices
                 .filter(inv => inv.status === 'Paid')
                 .reduce((sum, inv) => sum + inv.amount, 0);
 
+            const paymentsRevenue = (data.paymentsReceived || []).reduce((sum, p) => sum + p.amount, 0);
+
+            const totalRevenue = invoiceRevenue + paymentsRevenue;
             const totalExpenses = data.expenses.reduce((sum, exp) => sum + exp.amount, 0);
             const netProfit = totalRevenue - totalExpenses;
 
-            document.getElementById('totalRevenue').textContent = '₹' + totalRevenue.toFixed(2);
-            document.getElementById('totalExpenses').textContent = '₹' + totalExpenses.toFixed(2);
-            document.getElementById('netProfit').textContent = '₹' + netProfit.toFixed(2);
+            document.getElementById('totalRevenue').textContent = '&#8377;' + totalRevenue.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+            document.getElementById('totalExpenses').textContent = '&#8377;' + totalExpenses.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+            document.getElementById('netProfit').textContent = '&#8377;' + netProfit.toLocaleString('en-IN', { minimumFractionDigits: 2 });
             document.getElementById('activeCustomers').textContent = data.customers.length;
 
-            // Dynamic stat-change subtexts
+            // Stat-change subtexts
             const paidCount = data.invoices.filter(i => i.status === 'Paid').length;
-            const pendingCount = data.invoices.filter(i => i.status === 'Pending').length;
+            const prCount = (data.paymentsReceived || []).length;
             const revEl = document.getElementById('revChange');
-            revEl.textContent = paidCount > 0 ? `${paidCount} paid invoice${paidCount > 1 ? 's' : ''}` : 'No paid invoices yet';
-            revEl.className = 'stat-change' + (paidCount > 0 ? ' positive' : '');
+            const revParts = [];
+            if (paidCount > 0) revParts.push(`${paidCount} paid invoice${paidCount > 1 ? 's' : ''}`);
+            if (prCount > 0) revParts.push(`${prCount} payment${prCount > 1 ? 's' : ''} received`);
+            revEl.textContent = revParts.length > 0 ? revParts.join(' + ') : 'No revenue recorded yet';
+            revEl.className = 'stat-change' + (totalRevenue > 0 ? ' positive' : '');
 
             const expEl = document.getElementById('expChange');
             expEl.textContent = data.expenses.length > 0 ? `${data.expenses.length} expense${data.expenses.length > 1 ? 's' : ''} recorded` : 'No expenses recorded';
 
             const profEl = document.getElementById('profitChange');
-            if (netProfit > 0) { profEl.textContent = '↑ In profit'; profEl.className = 'stat-change positive'; }
-            else if (netProfit < 0) { profEl.textContent = '↓ Running at a loss'; profEl.className = 'stat-change'; }
+            if (netProfit > 0) { profEl.textContent = '&#8593; In profit'; profEl.className = 'stat-change positive'; }
+            else if (netProfit < 0) { profEl.textContent = '&#8595; Running at a loss'; profEl.className = 'stat-change'; }
             else { profEl.textContent = 'Revenue minus expenses'; profEl.className = 'stat-change'; }
 
             const custEl = document.getElementById('custChange');
@@ -2023,11 +2034,11 @@
             document.getElementById('reportTotalCustomers').textContent = data.customers.length;
 
             const inventoryValue = data.inventory.reduce((sum, prod) => sum + (prod.quantity * prod.price), 0);
-            document.getElementById('reportInventoryValue').textContent = '₹' + inventoryValue.toFixed(2);
+            document.getElementById('reportInventoryValue').textContent = '&#8377;' + inventoryValue.toLocaleString('en-IN', { minimumFractionDigits: 2 });
 
-            document.getElementById('reportRevenue').textContent = '₹' + totalRevenue.toFixed(2);
-            document.getElementById('reportExpenses').textContent = '₹' + totalExpenses.toFixed(2);
-            document.getElementById('reportNet').textContent = '₹' + netProfit.toFixed(2);
+            document.getElementById('reportRevenue').textContent = '&#8377;' + totalRevenue.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+            document.getElementById('reportExpenses').textContent = '&#8377;' + totalExpenses.toLocaleString('en-IN', { minimumFractionDigits: 2 });
+            document.getElementById('reportNet').textContent = '&#8377;' + netProfit.toLocaleString('en-IN', { minimumFractionDigits: 2 });
         }
 
         // ===== UTILITIES =====
