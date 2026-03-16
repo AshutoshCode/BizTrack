@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 import { v4 as uuidv4 } from 'uuid';
+import { InvoiceSchema } from '@/lib/schemas';
+import { z } from 'zod';
 
 const TO_FRONTEND: Record<string, string> = { UNPAID: 'Pending', PAID: 'Paid', LATE: 'Overdue' };
 const TO_DB: Record<string, string>       = { Pending: 'UNPAID', Paid: 'PAID', Overdue: 'LATE' };
@@ -27,29 +29,38 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
     try {
-        const { customer, dueDate, amount, items, date } = await req.json();
-        const id = uuidv4();
-        const dateCreated = date || new Date().toISOString().slice(0, 10);
+        const body = await req.json();
+        const validatedData = InvoiceSchema.parse(body);
+        const { customer, dateCreated, dueDate, items } = validatedData;
+        
+        const safeItems = items ?? [];
+        const totalAmount = safeItems.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+        const invoiceId = uuidv4();
         const dbStatus = 'UNPAID';
 
-        await db.execute({
-            sql: 'INSERT INTO invoices (id, customer, date_created, due_date, status, total_amount) VALUES (?, ?, ?, ?, ?, ?)',
-            args: [id, customer, dateCreated, dueDate, dbStatus, amount]
-        });
-
-        if (Array.isArray(items)) {
-            for (const item of items) {
-                await db.execute({
-                    sql: 'INSERT INTO invoice_items (id, invoice_id, product_id, description, quantity, price, total) VALUES (?, ?, ?, ?, ?, ?, ?)',
-                    args: [uuidv4(), id, null, item.description, item.quantity, item.price, item.quantity * item.price]
-                });
+        const stmts = [
+            {
+                sql: 'INSERT INTO invoices (id, customer, date_created, due_date, status, total_amount) VALUES (?, ?, ?, ?, ?, ?)',
+                args: [invoiceId, customer, dateCreated || null, dueDate || null, dbStatus, totalAmount]
             }
+        ];
+
+        for (const item of safeItems) {
+            stmts.push({
+                sql: 'INSERT INTO invoice_items (id, invoice_id, product_id, description, quantity, price, total) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                args: [uuidv4(), invoiceId, null as any, item.description, item.quantity, item.price, item.quantity * item.price]
+            });
         }
 
-        const result = await db.execute({ sql: 'SELECT * FROM invoices WHERE id = ?', args: [id] });
+        await db.batch(stmts, 'write');
+
+        const result = await db.execute({ sql: 'SELECT * FROM invoices WHERE id = ?', args: [invoiceId] });
         const invoice = mapInvoice(result.rows[0]);
         return NextResponse.json({ invoice }, { status: 201 });
     } catch (e: unknown) {
+        if (e instanceof z.ZodError) {
+            return NextResponse.json({ error: 'Validation failed', details: e.issues }, { status: 400 });
+        }
         return NextResponse.json({ error: (e as Error).message }, { status: 500 });
     }
 }

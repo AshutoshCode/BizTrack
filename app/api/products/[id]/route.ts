@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
+import { ProductSchema } from '@/lib/schemas';
+import { z } from 'zod';
 
 export async function PATCH(
     request: Request,
@@ -7,22 +9,27 @@ export async function PATCH(
 ) {
     try {
         const { id } = await context.params;
-        const body = await request.json(); // Fixed: req.json() -> request.json()
+        const body = await request.json();
         
-        // Should ideally be in a transaction but we'll do sequential for simplicity if not heavily constrained
-        const fields = Object.keys(body); // Fixed: lds = Object.keys(body) -> const fields = Object.keys(body)
+        // Use partial schema to validate only the fields provided
+        const validatedData = ProductSchema.partial().parse(body);
+        const fields = Object.keys(validatedData);
+        
         if (fields.length === 0) {
-            return NextResponse.json({ error: 'No fields to update' }, { status: 400 });
+            return NextResponse.json({ error: 'No valid fields to update' }, { status: 400 });
         }
 
         const sql = `UPDATE products SET ${fields.map(f => `${f} = ?`).join(', ')} WHERE id = ?`;
-        const args = [...Object.values(body), id] as any[];
+        const args = [...Object.values(validatedData), id] as any[];
 
         await db.execute({ sql, args });
         
         const result = await db.execute({ sql: 'SELECT * FROM products WHERE id = ?', args: [id] });
         return NextResponse.json({ product: result.rows[0] });
     } catch (e: unknown) {
+        if (e instanceof z.ZodError) {
+            return NextResponse.json({ error: 'Validation failed', details: e.issues }, { status: 400 });
+        }
         return NextResponse.json({ error: (e as Error).message }, { status: 500 });
     }
 }

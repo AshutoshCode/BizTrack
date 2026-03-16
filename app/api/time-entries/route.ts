@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 import { v4 as uuidv4 } from 'uuid';
+import { TimeEntrySchema } from '@/lib/schemas';
+import { z } from 'zod';
 
 export async function GET() {
     try {
@@ -17,17 +19,23 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
     try {
-        const { project, date, hours, billable, invoice } = await req.json();
+        const body = await req.json();
+        const validatedData = TimeEntrySchema.parse(body);
+        const { project, date, hours, billable, invoice_id } = validatedData;
+        
         const id = uuidv4();
         await db.execute({
             sql: 'INSERT INTO time_entries (id, project, date, hours, billable, invoice_id) VALUES (?, ?, ?, ?, ?, ?)',
-            args: [id, project, date, hours, billable ? 1 : 0, invoice]
+            args: [id, project, date, hours, billable ? 1 : 0, invoice_id || null]
         });
         const result = await db.execute({ sql: 'SELECT * FROM time_entries WHERE id = ?', args: [id] });
         const row: any = result.rows[0];
         const timeEntry = { ...row, invoice: row.invoice_id };
         return NextResponse.json({ timeEntry }, { status: 201 });
     } catch (e: unknown) {
+        if (e instanceof z.ZodError) {
+            return NextResponse.json({ error: 'Validation failed', details: e.issues }, { status: 400 });
+        }
         return NextResponse.json({ error: (e as Error).message }, { status: 500 });
     }
 }
