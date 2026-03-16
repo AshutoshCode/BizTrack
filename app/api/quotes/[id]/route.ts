@@ -2,11 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 
 export async function GET(
-    req: NextRequest,
-    { params }: { params: Promise<{ id: string }> }
+    request: Request,
+    context: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id } = await params;
+        const { id } = await context.params;
         const quoteRes = await db.execute({ sql: 'SELECT * FROM quotes WHERE id = ?', args: [id] });
         if (quoteRes.rows.length === 0) {
             return NextResponse.json({ error: 'Quote not found' }, { status: 404 });
@@ -23,16 +23,16 @@ export async function GET(
 }
 
 export async function PATCH(
-    req: NextRequest,
-    { params }: { params: Promise<{ id: string }> }
+    request: Request,
+    context: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id } = await params;
-        const { status } = await req.json();
+        const { id } = await context.params;
+        const { active } = await request.json();
 
         await db.execute({
             sql: 'UPDATE quotes SET status = ? WHERE id = ?',
-            args: [status, id]
+            args: [active, id]
         });
 
         const quoteRes = await db.execute({ sql: 'SELECT * FROM quotes WHERE id = ?', args: [id] });
@@ -43,11 +43,11 @@ export async function PATCH(
 }
 
 export async function DELETE(
-    req: NextRequest,
-    { params }: { params: Promise<{ id: string }> }
+    request: Request,
+    context: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id } = await params;
+        const { id } = await context.params;
         await db.execute({ sql: 'DELETE FROM quote_items WHERE quote_id = ?', args: [id] });
         await db.execute({ sql: 'DELETE FROM quotes WHERE id = ?', args: [id] });
         return NextResponse.json({ success: true });

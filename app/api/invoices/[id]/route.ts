@@ -15,11 +15,11 @@ function mapInvoice(inv: any) {
 }
 
 export async function GET(
-    req: NextRequest,
-    { params }: { params: Promise<{ id: string }> }
+    request: Request,
+    context: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id } = await params;
+        const { id } = await context.params;
         const invRes = await db.execute({ sql: 'SELECT * FROM invoices WHERE id = ?', args: [id] });
         if (invRes.rows.length === 0) {
             return NextResponse.json({ error: 'Invoice not found' }, { status: 404 });
@@ -36,12 +36,12 @@ export async function GET(
 }
 
 export async function PATCH(
-    req: NextRequest,
-    { params }: { params: Promise<{ id: string }> }
+    request: Request,
+    context: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id } = await params;
-        const { status } = await req.json();
+        const { id } = await context.params;
+        const { status } = await request.json();
         const dbStatus = TO_DB[status] || status;
 
         await db.execute({
@@ -57,11 +57,11 @@ export async function PATCH(
 }
 
 export async function DELETE(
-    req: NextRequest,
-    { params }: { params: Promise<{ id: string }> }
+    request: Request,
+    context: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id } = await params;
+        const { id } = await context.params;
         // Should ideally be in a transaction but we'll do sequential for simplicity if not heavily constrained
         await db.execute({ sql: 'DELETE FROM invoice_items WHERE invoice_id = ?', args: [id] });
         await db.execute({ sql: 'DELETE FROM invoices WHERE id = ?', args: [id] });

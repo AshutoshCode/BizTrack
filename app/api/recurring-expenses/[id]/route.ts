@@ -2,11 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 
 export async function PATCH(
-    req: NextRequest,
-    { params }: { params: Promise<{ id: string }> }
+    request: Request,
+    context: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id } = await params;
+        const { id } = await context.params;
         const { active } = await req.json();
         await db.execute({
             sql: 'UPDATE recurring_expenses SET active = ? WHERE id = ?',
@@ -22,11 +22,11 @@ export async function PATCH(
 }
 
 export async function DELETE(
-    req: NextRequest,
-    { params }: { params: Promise<{ id: string }> }
+    request: Request,
+    context: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { id } = await params;
+        const { id } = await context.params;
         await db.execute({ sql: 'DELETE FROM recurring_expenses WHERE id = ?', args: [id] });
         return NextResponse.json({ success: true });
     } catch (e: unknown) {
