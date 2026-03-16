@@ -1,43 +1,28 @@
-import { NextResponse } from 'next/server';
-import base, { AIRTABLE_TABLES, mapRecord } from '@/lib/airtable';
+import { NextRequest, NextResponse } from 'next/server';
+import db from '@/lib/db';
+import { v4 as uuidv4 } from 'uuid';
 
 export async function GET() {
     try {
-        const records = await base(AIRTABLE_TABLES.EXPENSES).select({
-            sort: [{ field: 'Date', direction: 'desc' }]
-        }).all();
-
-        return NextResponse.json(records.map(mapRecord));
-    } catch (error) {
-        console.error('Airtable Error:', error);
-        return NextResponse.json({ error: 'Failed to fetch expenses' }, { status: 500 });
+        const result = await db.execute({ sql: 'SELECT * FROM expenses ORDER BY date DESC', args: [] });
+        return NextResponse.json({ expenses: result.rows });
+    } catch (e: unknown) {
+        return NextResponse.json({ error: (e as Error).message }, { status: 500 });
     }
 }
 
-export async function POST(request: Request) {
+export async function POST(req: NextRequest) {
     try {
-        const body = await request.json();
-
-        if (!body.description || !body.amount) {
-            return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
-        }
-
-        const createdRecords = await base(AIRTABLE_TABLES.EXPENSES).create([
-            {
-                fields: {
-                    Description: body.description,
-                    Amount: parseFloat(body.amount),
-                    Category: body.category,
-                    Date: body.date,
-                    Vendor: body.vendor,
-                    Notes: body.notes
-                }
-            }
-        ]);
-
-        return NextResponse.json(mapRecord(createdRecords[0]), { status: 201 });
-    } catch (error) {
-        console.error('Airtable Error:', error);
-        return NextResponse.json({ error: 'Failed to create expense' }, { status: 500 });
+        const { description, amount, category, date } = await req.json();
+        const id = uuidv4();
+        await db.execute({
+            sql: 'INSERT INTO expenses (id, description, amount, category, date) VALUES (?, ?, ?, ?, ?)',
+            args: [id, description, amount, category, date]
+        });
+        const result = await db.execute({ sql: 'SELECT * FROM expenses WHERE id = ?', args: [id] });
+        const expense = result.rows[0];
+        return NextResponse.json({ expense }, { status: 201 });
+    } catch (e: unknown) {
+        return NextResponse.json({ error: (e as Error).message }, { status: 500 });
     }
 }

@@ -1,56 +1,72 @@
-import { NextResponse } from 'next/server';
-import base, { AIRTABLE_TABLES, mapRecord } from '@/lib/airtable';
+import { NextRequest, NextResponse } from 'next/server';
+import db from '@/lib/db';
 
-export async function GET(request: Request, props: { params: Promise<{ id: string }> }) {
-    const params = await props.params;
+const TO_FRONTEND: Record<string, string> = { UNPAID: 'Pending', PAID: 'Paid', LATE: 'Overdue' };
+const TO_DB: Record<string, string>       = { Pending: 'UNPAID', Paid: 'PAID', Overdue: 'LATE' };
+
+function mapInvoice(inv: any) {
+    if (!inv) return inv;
+    return {
+        ...inv,
+        status: TO_FRONTEND[inv.status] || inv.status,
+        amount: inv.total_amount,
+        dueDate: inv.due_date,
+    };
+}
+
+export async function GET(
+    req: NextRequest,
+    { params }: { params: { id: string } }
+) {
     try {
-        const record = await base(AIRTABLE_TABLES.INVOICES).find(params.id);
-
-        // Parse items from JSON string
-        const items = record.get('Items') ? JSON.parse(record.get('Items') as string) : [];
-
-        const invoice = {
-            ...mapRecord(record),
-            items: items,
-            // We might need customer details too. 
-            // For now, frontend fetches separately or we rely on what's in the record.
-        };
-
-        return NextResponse.json(invoice);
-    } catch (error) {
-        return NextResponse.json({ error: 'Invoice not found' }, { status: 404 });
+        const { id } = await params;
+        const invRes = await db.execute({ sql: 'SELECT * FROM invoices WHERE id = ?', args: [id] });
+        if (invRes.rows.length === 0) {
+            return NextResponse.json({ error: 'Invoice not found' }, { status: 404 });
+        }
+        const itemsRes = await db.execute({ sql: 'SELECT * FROM invoice_items WHERE invoice_id = ?', args: [id] });
+        
+        return NextResponse.json({ 
+            invoice: mapInvoice(invRes.rows[0]), 
+            items: itemsRes.rows 
+        });
+    } catch (e: unknown) {
+        return NextResponse.json({ error: (e as Error).message }, { status: 500 });
     }
 }
 
-export async function PUT(request: Request, props: { params: Promise<{ id: string }> }) {
-    const params = await props.params;
+export async function PATCH(
+    req: NextRequest,
+    { params }: { params: { id: string } }
+) {
     try {
-        const body = await request.json();
+        const { id } = await params;
+        const { status } = await req.json();
+        const dbStatus = TO_DB[status] || status;
 
-        // Only updating status for now usually
-        const fields: any = {};
-        if (body.status) fields.Status = body.status;
-        if (body.status === 'PAID') fields['Paid Date'] = new Date().toISOString().split('T')[0];
+        await db.execute({
+            sql: 'UPDATE invoices SET status = ? WHERE id = ?',
+            args: [dbStatus, id]
+        });
 
-        const updatedRecords = await base(AIRTABLE_TABLES.INVOICES).update([
-            {
-                id: params.id,
-                fields: fields
-            }
-        ]);
-
-        return NextResponse.json(mapRecord(updatedRecords[0]));
-    } catch (error) {
-        return NextResponse.json({ error: 'Failed to update invoice' }, { status: 500 });
+        const invRes = await db.execute({ sql: 'SELECT * FROM invoices WHERE id = ?', args: [id] });
+        return NextResponse.json({ invoice: mapInvoice(invRes.rows[0]) });
+    } catch (e: unknown) {
+        return NextResponse.json({ error: (e as Error).message }, { status: 500 });
     }
 }
 
-export async function DELETE(request: Request, props: { params: Promise<{ id: string }> }) {
-    const params = await props.params;
+export async function DELETE(
+    req: NextRequest,
+    { params }: { params: { id: string } }
+) {
     try {
-        await base(AIRTABLE_TABLES.INVOICES).destroy([params.id]);
+        const { id } = await params;
+        // Should ideally be in a transaction but we'll do sequential for simplicity if not heavily constrained
+        await db.execute({ sql: 'DELETE FROM invoice_items WHERE invoice_id = ?', args: [id] });
+        await db.execute({ sql: 'DELETE FROM invoices WHERE id = ?', args: [id] });
         return NextResponse.json({ success: true });
-    } catch (error) {
-        return NextResponse.json({ error: 'Failed to delete invoice' }, { status: 500 });
+    } catch (e: unknown) {
+        return NextResponse.json({ error: (e as Error).message }, { status: 500 });
     }
 }

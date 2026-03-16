@@ -1,18 +1,8 @@
-import Database from 'better-sqlite3';
-import path from 'path';
+import { createClient } from '@libsql/client';
 
-const dbPath = path.join(process.cwd(), 'biztrack.db');
-
-// Allow the connection to be cached in development to prevent multiple connections
-// during hot reloading
-declare global {
-    var sqlite: Database.Database | undefined;
-}
-
-const db = global.sqlite || new Database(dbPath);
-
-if (process.env.NODE_ENV === 'development') {
-    global.sqlite = db;
-}
+const db = createClient({
+  url: process.env.TURSO_URL!,
+  authToken: process.env.TURSO_AUTH_TOKEN!,
+});
 
 export default db;

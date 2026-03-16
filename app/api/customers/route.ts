@@ -1,43 +1,28 @@
-import { NextResponse } from 'next/server';
-import base, { AIRTABLE_TABLES, mapRecord } from '@/lib/airtable';
+import { NextRequest, NextResponse } from 'next/server';
+import db from '@/lib/db';
+import { v4 as uuidv4 } from 'uuid';
 
 export async function GET() {
     try {
-        const records = await base(AIRTABLE_TABLES.CUSTOMERS).select({
-            sort: [{ field: 'Name', direction: 'asc' }]
-        }).all();
-
-        return NextResponse.json(records.map(mapRecord));
-    } catch (error) {
-        console.error('Airtable Error:', error);
-        return NextResponse.json({ error: 'Failed to fetch customers' }, { status: 500 });
+        const result = await db.execute({ sql: 'SELECT * FROM customers ORDER BY name ASC', args: [] });
+        return NextResponse.json({ customers: result.rows });
+    } catch (e: unknown) {
+        return NextResponse.json({ error: (e as Error).message }, { status: 500 });
     }
 }
 
-export async function POST(request: Request) {
+export async function POST(req: NextRequest) {
     try {
-        const body = await request.json();
-
-        // Basic validation
-        if (!body.name) {
-            return NextResponse.json({ error: 'Name is required' }, { status: 400 });
-        }
-
-        const createdRecords = await base(AIRTABLE_TABLES.CUSTOMERS).create([
-            {
-                fields: {
-                    Name: body.name,
-                    Email: body.email,
-                    Phone: body.phone,
-                    Address: body.address,
-                    Notes: body.notes
-                }
-            }
-        ]);
-
-        return NextResponse.json(mapRecord(createdRecords[0]), { status: 201 });
-    } catch (error) {
-        console.error('Airtable Error:', error);
-        return NextResponse.json({ error: 'Failed to create customer' }, { status: 500 });
+        const { name, email, phone, address } = await req.json();
+        const id = uuidv4();
+        await db.execute({
+            sql: 'INSERT INTO customers (id, name, email, phone, address) VALUES (?, ?, ?, ?, ?)',
+            args: [id, name, email, phone, address]
+        });
+        const result = await db.execute({ sql: 'SELECT * FROM customers WHERE id = ?', args: [id] });
+        const customer = result.rows[0];
+        return NextResponse.json({ customer }, { status: 201 });
+    } catch (e: unknown) {
+        return NextResponse.json({ error: (e as Error).message }, { status: 500 });
     }
 }

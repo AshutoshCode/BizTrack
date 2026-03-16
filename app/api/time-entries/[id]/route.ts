@@ -7,7 +7,7 @@ export async function DELETE(
 ) {
     try {
         const { id } = await params;
-        await db.execute({ sql: 'DELETE FROM expenses WHERE id = ?', args: [id] });
+        await db.execute({ sql: 'DELETE FROM time_entries WHERE id = ?', args: [id] });
         return NextResponse.json({ success: true });
     } catch (e: unknown) {
         return NextResponse.json({ error: (e as Error).message }, { status: 500 });

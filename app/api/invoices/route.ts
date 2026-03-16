@@ -1,56 +1,55 @@
-import { NextResponse } from 'next/server';
-import base, { AIRTABLE_TABLES, mapRecord } from '@/lib/airtable';
+import { NextRequest, NextResponse } from 'next/server';
+import db from '@/lib/db';
+import { v4 as uuidv4 } from 'uuid';
+
+const TO_FRONTEND: Record<string, string> = { UNPAID: 'Pending', PAID: 'Paid', LATE: 'Overdue' };
+const TO_DB: Record<string, string>       = { Pending: 'UNPAID', Paid: 'PAID', Overdue: 'LATE' };
+
+function mapInvoice(inv: any) {
+    if (!inv) return inv;
+    return {
+        ...inv,
+        status: TO_FRONTEND[inv.status] || inv.status,
+        amount: inv.total_amount, // frontend expects .amount
+        dueDate: inv.due_date,    // frontend expects .dueDate
+    };
+}
 
 export async function GET() {
     try {
-        const records = await base(AIRTABLE_TABLES.INVOICES).select({
-            sort: [{ field: 'Date Created', direction: 'desc' }] // Ensure field name matches Airtable
-        }).all();
-
-        // We need customer names. In Airtable, if 'Customer' is a linked record, 
-        // the API returns an array of IDs. We might need to fetch customers or use a Lookup field in Airtable 
-        // that brings the name into the Invoices table.
-        // For MVP, let's assume the frontend might just show ID or we rely on a "Customer Name" lookup field in Airtable.
-        // Let's assume there is a 'Customer Name' lookup field for simplicity.
-
-        const mapped = records.map(r => ({
-            ...mapRecord(r),
-            customer_name: r.get('Customer Name') ? (r.get('Customer Name') as any[])[0] : 'Unknown', // Lookup fields return arrays
-            item_count: r.get('Items') ? JSON.parse(r.get('Items') as string).length : 0
-        }));
-
-        return NextResponse.json(mapped);
-    } catch (error) {
-        console.error('Airtable Error:', error);
-        return NextResponse.json({ error: 'Failed to fetch invoices' }, { status: 500 });
+        const result = await db.execute({ sql: 'SELECT * FROM invoices ORDER BY date_created DESC', args: [] });
+        const invoices = result.rows.map(mapInvoice);
+        return NextResponse.json({ invoices });
+    } catch (e: unknown) {
+        return NextResponse.json({ error: (e as Error).message }, { status: 500 });
     }
 }
 
-export async function POST(request: Request) {
+export async function POST(req: NextRequest) {
     try {
-        const body = await request.json();
+        const { customer, dueDate, amount, items, date } = await req.json();
+        const id = uuidv4();
+        const dateCreated = date || new Date().toISOString().slice(0, 10);
+        const dbStatus = 'UNPAID';
 
-        // Calculate total on server or trust client? Trust client for MVP but safer to calc.
-        // We will store items as a JSON string in a text field for simplicity as per plan.
-        const itemsJson = JSON.stringify(body.items);
+        await db.execute({
+            sql: 'INSERT INTO invoices (id, customer, date_created, due_date, status, total_amount) VALUES (?, ?, ?, ?, ?, ?)',
+            args: [id, customer, dateCreated, dueDate, dbStatus, amount]
+        });
 
-        const createdRecords = await base(AIRTABLE_TABLES.INVOICES).create([
-            {
-                fields: {
-                    Customer: [body.customer_id], // Linked record requires array of IDs
-                    'Date Created': body.date_created,
-                    'Due Date': body.due_date,
-                    Status: body.status,
-                    'Total Amount': body.items.reduce((sum: number, item: any) => sum + (item.quantity * item.price), 0),
-                    Notes: body.notes,
-                    Items: itemsJson
-                }
+        if (Array.isArray(items)) {
+            for (const item of items) {
+                await db.execute({
+                    sql: 'INSERT INTO invoice_items (id, invoice_id, product_id, description, quantity, price, total) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                    args: [uuidv4(), id, null, item.description, item.quantity, item.price, item.quantity * item.price]
+                });
             }
-        ]);
+        }
 
-        return NextResponse.json(mapRecord(createdRecords[0]), { status: 201 });
-    } catch (error) {
-        console.error('Airtable Error:', error);
-        return NextResponse.json({ error: 'Failed to create invoice' }, { status: 500 });
+        const result = await db.execute({ sql: 'SELECT * FROM invoices WHERE id = ?', args: [id] });
+        const invoice = mapInvoice(result.rows[0]);
+        return NextResponse.json({ invoice }, { status: 201 });
+    } catch (e: unknown) {
+        return NextResponse.json({ error: (e as Error).message }, { status: 500 });
     }
 }

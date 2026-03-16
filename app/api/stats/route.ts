@@ -1,70 +1,60 @@
 import { NextResponse } from 'next/server';
-import base, { AIRTABLE_TABLES, mapRecord } from '@/lib/airtable';
+import db from '@/lib/db';
+
+const TO_FRONTEND: Record<string, string> = { UNPAID: 'Pending', PAID: 'Paid', LATE: 'Overdue' };
 
 export async function GET() {
     try {
-        // We need to fetch all invoices and expenses to calculate stats.
-        // This is inefficient but standard for MVP with Airtable API limits (100 records per page).
-        // For larger datasets, we would need pagination or Rollup fields in a separate 'Stats' table.
+        // totalRevenue: SUM total_amount WHERE status = 'PAID'
+        const revRes = await db.execute({ sql: "SELECT SUM(total_amount) as total FROM invoices WHERE status = 'PAID'", args: [] });
+        const totalRevenue = Number(revRes.rows[0]?.total || 0);
 
-        const [invoices, expenses] = await Promise.all([
-            base(AIRTABLE_TABLES.INVOICES).select().all(),
-            base(AIRTABLE_TABLES.EXPENSES).select().all()
-        ]);
+        // totalExpenses: SUM amount FROM expenses
+        const expRes = await db.execute({ sql: "SELECT SUM(amount) as total FROM expenses", args: [] });
+        const totalExpenses = Number(expRes.rows[0]?.total || 0);
 
-        const currentMonth = new Date().getMonth();
-        const currentYear = new Date().getFullYear();
+        // unpaid
+        const unpaidRes = await db.execute({ sql: "SELECT COUNT(*) as count, SUM(total_amount) as total FROM invoices WHERE status = 'UNPAID'", args: [] });
+        const unpaidCount = Number(unpaidRes.rows[0]?.count || 0);
+        const unpaidAmount = Number(unpaidRes.rows[0]?.total || 0);
 
-        const revenue = invoices
-            .filter(r => r.get('Status') === 'PAID')
-            .filter(r => {
-                const d = new Date(r.get('Paid Date') as string);
-                return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
-            })
-            .reduce((sum, r) => sum + (r.get('Total Amount') as number || 0), 0);
+        // overdue
+        const overdueRes = await db.execute({ sql: "SELECT COUNT(*) as count, SUM(total_amount) as total FROM invoices WHERE status = 'LATE'", args: [] });
+        const overdueCount = Number(overdueRes.rows[0]?.count || 0);
+        const overdueAmount = Number(overdueRes.rows[0]?.total || 0);
 
-        const expenseTotal = expenses
-            .filter(r => {
-                const d = new Date(r.get('Date') as string);
-                return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
-            })
-            .reduce((sum, r) => sum + (r.get('Amount') as number || 0), 0);
+        // expensesByCategory
+        const catRes = await db.execute({ sql: "SELECT category, SUM(amount) as total FROM expenses GROUP BY category ORDER BY total DESC", args: [] });
+        const expensesByCategory = catRes.rows.map(r => ({ category: r.category, total: r.total }));
 
-        const owed = invoices
-            .filter(r => r.get('Status') !== 'PAID')
-            .reduce((sum, r) => sum + (r.get('Total Amount') as number || 0), 0);
+        // revenueByMonth (last 6 months)
+        const monthRes = await db.execute({ 
+            sql: "SELECT strftime('%Y-%m', date_created) as month, SUM(total_amount) as total FROM invoices WHERE status = 'PAID' GROUP BY month ORDER BY month DESC LIMIT 6", 
+            args: [] 
+        });
+        const revenueByMonth = monthRes.rows.map(r => ({ month: r.month, total: r.total })).reverse();
 
-        // Recent activity
-        const recentInvoices = invoices.slice(0, 5).map(r => ({
-            type: 'INVOICE',
-            description: `Invoice #${r.id.slice(0, 5)}`, // ID is long in Airtable
-            amount: r.get('Total Amount'),
-            date: r.get('Date Issued') || r.get('Date Created')
+        // recentInvoices
+        const recentRes = await db.execute({ sql: "SELECT * FROM invoices ORDER BY date_created DESC LIMIT 5", args: [] });
+        const recentInvoices = recentRes.rows.map((inv: any) => ({
+            ...inv,
+            status: TO_FRONTEND[inv.status] || inv.status,
+            amount: inv.total_amount,
+            dueDate: inv.due_date,
         }));
-
-        const recentExpenses = expenses.slice(0, 5).map(r => ({
-            type: 'EXPENSE',
-            description: r.get('Description'),
-            amount: r.get('Amount'),
-            date: r.get('Date')
-        }));
-
-        const activity = [...recentInvoices, ...recentExpenses]
-            .sort((a, b) => new Date(b.date as string).getTime() - new Date(a.date as string).getTime())
-            .slice(0, 5);
-
-        const alerts = invoices.filter(r => r.get('Status') === 'LATE').length;
 
         return NextResponse.json({
-            revenue,
-            expenses: expenseTotal,
-            netProfit: revenue - expenseTotal,
-            owed,
-            activity,
-            alerts
+            totalRevenue,
+            totalExpenses,
+            unpaidCount,
+            unpaidAmount,
+            overdueCount,
+            overdueAmount,
+            expensesByCategory,
+            revenueByMonth,
+            recentInvoices
         });
-    } catch (error) {
-        console.error('Stats Error', error);
-        return NextResponse.json({ error: 'Failed to fetch stats' }, { status: 500 });
+    } catch (e: unknown) {
+        return NextResponse.json({ error: (e as Error).message }, { status: 500 });
     }
 }
