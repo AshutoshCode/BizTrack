@@ -7,7 +7,7 @@ export async function PATCH(
 ) {
     try {
         const { id } = await context.params;
-        const { active } = await req.json();
+        const { active } = await request.json();
         await db.execute({
             sql: 'UPDATE recurring_expenses SET active = ? WHERE id = ?',
             args: [active ? 1 : 0, id]

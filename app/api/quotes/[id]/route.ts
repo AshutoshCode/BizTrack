@@ -28,11 +28,11 @@ export async function PATCH(
 ) {
     try {
         const { id } = await context.params;
-        const { active } = await request.json();
+        const { status } = await request.json();
 
         await db.execute({
             sql: 'UPDATE quotes SET status = ? WHERE id = ?',
-            args: [active, id]
+            args: [status, id]
         });
 
         const quoteRes = await db.execute({ sql: 'SELECT * FROM quotes WHERE id = ?', args: [id] });
