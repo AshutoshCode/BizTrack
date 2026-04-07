@@ -19,7 +19,17 @@ function mapInvoice(inv: any) {
 
 export async function GET() {
     try {
-        const result = await db.execute({ sql: 'SELECT * FROM invoices ORDER BY date_created DESC', args: [] });
+        const result = await db.execute({ 
+            sql: `
+                SELECT 
+                    invoices.*, 
+                    customers.name as customer 
+                FROM invoices 
+                LEFT JOIN customers ON invoices.customer_id = customers.id 
+                ORDER BY invoices.date_created DESC
+            `, 
+            args: [] 
+        });
         const invoices = result.rows.map(mapInvoice);
         return NextResponse.json({ invoices });
     } catch (e: unknown) {
@@ -31,18 +41,43 @@ export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
         const validatedData = InvoiceSchema.parse(body);
-        const { customer, dateCreated, dueDate, items } = validatedData;
+        const { customer: customerName, dateCreated, dueDate, items, status: rawStatus } = validatedData;
         
+        // Resolve or create customer
+        let customerId;
+        const existingCust = await db.execute({ 
+            sql: 'SELECT id FROM customers WHERE name = ?', 
+            args: [customerName] 
+        });
+        
+        if (existingCust.rows.length > 0) {
+            customerId = (existingCust.rows[0] as any).id;
+        } else {
+            customerId = uuidv4();
+            await db.execute({ 
+                sql: 'INSERT INTO customers (id, name) VALUES (?, ?)', 
+                args: [customerId, customerName] 
+            });
+        }
+
         const safeItems = items ?? [];
-        const totalAmount = safeItems.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+        let totalAmount = safeItems.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+        
+        // If items are empty, use the top-level amount field if provided
+        if (safeItems.length === 0 && body.amount !== undefined) {
+            totalAmount = body.amount;
+        }
+
         const invoiceId = uuidv4();
-        const dbStatus = 'UNPAID';
+        const finalDateCreated = dateCreated || new Date().toISOString().split('T')[0];
+        const normalisedStatus = (rawStatus ? TO_DB[rawStatus] : null) || (body.status ? TO_DB[body.status] : null) || 'UNPAID';
 
         const stmts = [
             {
-                sql: 'INSERT INTO invoices (id, customer, date_created, due_date, status, total_amount) VALUES (?, ?, ?, ?, ?, ?)',
-                args: [invoiceId, customer, dateCreated || null, dueDate || null, dbStatus, totalAmount]
+                sql: 'INSERT INTO invoices (id, customer_id, date_created, due_date, status, total_amount) VALUES (?, ?, ?, ?, ?, ?)',
+                args: [invoiceId, customerId, finalDateCreated, dueDate || null, normalisedStatus, totalAmount]
             }
+
         ];
 
         for (const item of safeItems) {
@@ -54,7 +89,10 @@ export async function POST(req: NextRequest) {
 
         await db.batch(stmts, 'write');
 
-        const result = await db.execute({ sql: 'SELECT * FROM invoices WHERE id = ?', args: [invoiceId] });
+        const result = await db.execute({ 
+            sql: 'SELECT invoices.*, customers.name as customer FROM invoices JOIN customers ON invoices.customer_id = customers.id WHERE invoices.id = ?', 
+            args: [invoiceId] 
+        });
         const invoice = mapInvoice(result.rows[0]);
         return NextResponse.json({ invoice }, { status: 201 });
     } catch (e: unknown) {

@@ -21,12 +21,13 @@ export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
         const validatedData = TimeEntrySchema.parse(body);
-        const { project, date, hours, billable, invoice_id } = validatedData;
+        const { project, date, hours, billable, invoice, invoice_id } = validatedData;
         
+        const finalInvoiceId = invoice_id || invoice || null;
         const id = uuidv4();
         await db.execute({
             sql: 'INSERT INTO time_entries (id, project, date, hours, billable, invoice_id) VALUES (?, ?, ?, ?, ?, ?)',
-            args: [id, project, date, hours, billable ? 1 : 0, invoice_id || null]
+            args: [id, project, date || new Date().toISOString().slice(0, 10), hours, billable ? 1 : 0, finalInvoiceId]
         });
         const result = await db.execute({ sql: 'SELECT * FROM time_entries WHERE id = ?', args: [id] });
         const row: any = result.rows[0];

@@ -6,9 +6,19 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 export async function createInvoice(formData: FormData) {
-    const customer = formData.get('customerId') as string;
+    const customerInput = formData.get('customerId') as string;
     const dateCreated = (formData.get('dateCreated') as string) || new Date().toISOString().slice(0, 10);
     const dueDate = formData.get('dueDate') as string;
+
+    // Resolve customer ID (could be name or ID)
+    let customerId = customerInput;
+    const existing = await db.execute({ sql: 'SELECT id FROM customers WHERE id = ? OR name = ?', args: [customerInput, customerInput] });
+    if (existing.rows.length > 0) {
+        customerId = (existing.rows[0] as any).id;
+    } else {
+        customerId = uuidv4();
+        await db.execute({ sql: 'INSERT INTO customers (id, name) VALUES (?, ?)', args: [customerId, customerInput] });
+    }
 
     // Parse line items
     interface InvoiceItem {
@@ -32,8 +42,8 @@ export async function createInvoice(formData: FormData) {
 
     const stmts = [
         {
-            sql: 'INSERT INTO invoices (id, customer, date_created, due_date, status, total_amount) VALUES (?, ?, ?, ?, ?, ?)',
-            args: [invoiceId, customer, dateCreated, dueDate, 'UNPAID', totalAmount]
+            sql: 'INSERT INTO invoices (id, customer_id, date_created, due_date, status, total_amount) VALUES (?, ?, ?, ?, ?, ?)',
+            args: [invoiceId, customerId, dateCreated, dueDate, 'UNPAID', totalAmount]
         }
     ];
 

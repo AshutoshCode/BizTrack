@@ -1,51 +1,100 @@
 import { NextRequest, NextResponse } from 'next/server';
 import db from '@/lib/db';
 import { v4 as uuidv4 } from 'uuid';
-import { QuoteSchema } from '@/lib/schemas';
-import { z } from 'zod';
 
-export async function GET() {
-    try {
-        const result = await db.execute({ sql: 'SELECT * FROM quotes ORDER BY date_created DESC', args: [] });
-        return NextResponse.json({ quotes: result.rows });
-    } catch (e: unknown) {
-        return NextResponse.json({ error: (e as Error).message }, { status: 500 });
-    }
+// ── Helper: resolve customer name → customer_id ───────────────────────────
+async function resolveCustomerId(customer: string): Promise<string> {
+  const found = await db.execute({
+    sql: `SELECT id FROM customers WHERE LOWER(name) = LOWER(?) LIMIT 1`,
+    args: [customer],
+  });
+
+  if (found.rows.length > 0) return String(found.rows[0].id);
+
+  const newId = uuidv4();
+  await db.execute({
+    sql: `INSERT INTO customers (id, name) VALUES (?, ?)`,
+    args: [newId, customer],
+  });
+
+  return newId;
 }
 
+// ── GET /api/quotes ───────────────────────────────────────────────────────
+export async function GET() {
+  try {
+    const result = await db.execute(`
+      SELECT q.*, c.name AS customer_name
+      FROM quotes q
+      LEFT JOIN customers c ON c.id = q.customer
+      ORDER BY q.date_created DESC
+    `);
+    const formattedQuotes = result.rows.map(row => ({
+      ...row,
+      customer: row.customer_name,
+      amount: row.total_amount,
+      validUntil: row.expiry_date
+    }));
+    return NextResponse.json({ quotes: formattedQuotes });
+  } catch (err) {
+    console.error('[GET /api/quotes]', err);
+    return NextResponse.json({ error: 'Failed to fetch quotes', detail: String(err) }, { status: 500 });
+  }
+}
+
+// ── POST /api/quotes ──────────────────────────────────────────────────────
 export async function POST(req: NextRequest) {
-    try {
-        const body = await req.json();
-        const validatedData = QuoteSchema.parse(body);
-        const { customer, expiry_date, notes, items } = validatedData;
-        
-        const id = uuidv4();
-        const dateCreated = validatedData.dateCreated || new Date().toISOString().slice(0, 10);
-        const safeItems = items ?? [];
-        const totalAmount = safeItems.reduce((sum, item) => sum + (item.quantity * item.price), 0);
+  try {
+    const body = await req.json();
+    const {
+      customer,
+      amount,
+      validUntil,
+      status = 'Draft',
+      notes = '',
+      items = '[]',
+    } = body;
 
-        const stmts = [
-            {
-                sql: 'INSERT INTO quotes (id, customer, date_created, expiry_date, status, total_amount, notes) VALUES (?, ?, ?, ?, ?, ?, ?)',
-                args: [id, customer, dateCreated, expiry_date || null, 'Draft', totalAmount, notes || null]
-            }
-        ];
+    if (!customer) return NextResponse.json({ error: 'customer is required' }, { status: 400 });
+    if (amount === undefined || amount === null) return NextResponse.json({ error: 'amount is required' }, { status: 400 });
 
-        for (const item of safeItems) {
-            stmts.push({
-                sql: 'INSERT INTO quote_items (id, quote_id, description, quantity, price, total) VALUES (?, ?, ?, ?, ?, ?)',
-                args: [uuidv4(), id, item.description, item.quantity, item.price, item.quantity * item.price]
-            });
-        }
+    const customerId = await resolveCustomerId(String(customer));
+    const newId = uuidv4();
 
-        await db.batch(stmts, 'write');
+    await db.execute({
+      sql: `INSERT INTO quotes
+              (id, customer, total_amount, expiry_date, status, notes, date_created)
+            VALUES (?, ?, ?, ?, ?, ?, datetime('now'))`,
+      args: [
+        newId,
+        customerId,
+        Number(amount),
+        validUntil ?? null,
+        status,
+        notes
+      ],
+    });
 
-        const result = await db.execute({ sql: 'SELECT * FROM quotes WHERE id = ?', args: [id] });
-        return NextResponse.json({ quote: result.rows[0] }, { status: 201 });
-    } catch (e: unknown) {
-        if (e instanceof z.ZodError) {
-            return NextResponse.json({ error: 'Validation failed', details: e.issues }, { status: 400 });
-        }
-        return NextResponse.json({ error: (e as Error).message }, { status: 500 });
-    }
+    const newQuote = await db.execute({
+      sql: `SELECT q.*, c.name AS customer_name
+            FROM quotes q
+            LEFT JOIN customers c ON c.id = q.customer
+            WHERE q.id = ?`,
+      args: [newId],
+    });
+
+    const row = newQuote.rows[0];
+    const formattedQuote = {
+      ...row,
+      customer: row.customer_name,
+      amount: row.total_amount,
+      validUntil: row.expiry_date
+    };
+
+    return NextResponse.json({ quote: formattedQuote }, { status: 201 });
+
+  } catch (err) {
+    console.error('[POST /api/quotes]', err);
+    return NextResponse.json({ error: 'Failed to create quote', detail: String(err) }, { status: 500 });
+  }
 }

@@ -17,12 +17,12 @@ export async function POST(req: NextRequest) {
     try {
         const body = await req.json();
         const validatedData = CustomerSchema.parse(body);
-        const { name, email, phone, address } = validatedData;
+        const { name, email, phone, address, status } = validatedData;
         
         const id = uuidv4();
         await db.execute({
-            sql: 'INSERT INTO customers (id, name, email, phone, address) VALUES (?, ?, ?, ?, ?)',
-            args: [id, name, email || null, phone || null, address || null]
+            sql: 'INSERT INTO customers (id, name, email, phone, address, status) VALUES (?, ?, ?, ?, ?, ?)',
+            args: [id, name, email || null, phone || null, address || null, status || 'Active']
         });
         const result = await db.execute({ sql: 'SELECT * FROM customers WHERE id = ?', args: [id] });
         const customer = result.rows[0];

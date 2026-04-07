@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap"
         rel="stylesheet">
     <style>
         /* ===== ROOT VARIABLES — DARK MODE (default) ===== */
@@ -85,7 +85,7 @@
         }
 
         body {
-            font-family: 'Rubik', sans-serif;
+            font-family: 'Inter', sans-serif;
             background: var(--bg-body);
             color: var(--text-primary);
             display: flex;
@@ -106,7 +106,7 @@
         }
 
         .logo {
-            padding: 25px;
+            padding: 30px 25px;
             border-bottom: 1px solid var(--bg-sidebar-border);
             display: flex;
             align-items: center;
@@ -126,7 +126,7 @@
         }
 
         .logo-text {
-            font-family: 'Rubik', sans-serif;
+            font-family: 'Syne', sans-serif;
             font-size: 1.3em;
             font-weight: 700;
             letter-spacing: -0.5px;
@@ -179,25 +179,8 @@
         .nav-icon {
             font-size: 1.3em;
             width: 24px;
-            height: 24px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            opacity: 0.7;
-            transition: transform 0.3s ease, opacity 0.3s ease;
-        }
-
-        .nav-link:hover .nav-icon,
-        .nav-link.active .nav-icon {
-            opacity: 1;
-            transform: scale(1.1);
-        }
-
-        .nav-icon svg {
-            width: 20px;
-            height: 20px;
-            stroke-width: 2.25px;
         }
 
         /* ===== MAIN CONTENT ===== */
@@ -221,7 +204,7 @@
         }
 
         .header-title {
-            font-family: 'Rubik', sans-serif;
+            font-family: 'Syne', sans-serif;
             font-size: 1.8em;
             font-weight: 700;
             letter-spacing: -0.5px;
@@ -356,7 +339,7 @@
         }
 
         .stat-value {
-            font-family: 'Rubik', sans-serif;
+            font-family: 'Syne', sans-serif;
             font-size: 2em;
             font-weight: 700;
             margin-bottom: 8px;
@@ -399,7 +382,7 @@
         }
 
         .form-title {
-            font-family: 'Rubik', sans-serif;
+            font-family: 'Syne', sans-serif;
             font-size: 1.4em;
             font-weight: 700;
             margin-bottom: 30px;
@@ -825,7 +808,7 @@
         }
 
         .bt-page-heading {
-            font-family: 'Rubik', sans-serif;
+            font-family: 'Syne', sans-serif;
             font-size: 24px;
             font-weight: 700;
             color: var(--text-primary);
@@ -907,7 +890,7 @@
         }
 
         .bt-stat-value {
-            font-family: 'Rubik', sans-serif;
+            font-family: 'Syne', sans-serif;
             font-size: 30px;
             font-weight: 700;
             color: var(--text-primary);
@@ -948,7 +931,7 @@
         }
 
         .bt-card-title {
-            font-family: 'Rubik', sans-serif;
+            font-family: 'Syne', sans-serif;
             font-size: 14px;
             font-weight: 700;
             color: var(--text-primary);
@@ -999,7 +982,7 @@
         }
 
         .bt-chart-label {
-            font-family: 'Rubik', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 11px;
             fill: var(--text-secondary);
         }
@@ -1188,7 +1171,7 @@
             border: none;
             background: transparent;
             outline: none;
-            font-family: 'Rubik', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 13px;
             color: var(--text-primary);
             flex: 1;
@@ -1210,7 +1193,7 @@
             padding: 7px 12px;
             font-size: 13px;
             color: var(--text-secondary);
-            font-family: 'Rubik', sans-serif;
+            font-family: 'Inter', sans-serif;
             cursor: pointer;
             outline: none;
             transition: border-color 0.3s ease;
@@ -1273,7 +1256,7 @@
         }
 
         .bt-td-mono {
-            font-family: 'Rubik', monospace;
+            font-family: 'Inter', monospace;
             font-size: 12.5px;
             color: var(--text-secondary);
             letter-spacing: 0.02em;
@@ -1311,7 +1294,7 @@
             transition: all 0.3s ease;
             border: none;
             background: transparent;
-            font-family: 'Rubik', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         .bt-tab:hover {
@@ -1405,7 +1388,7 @@
         }
 
         .bt-prod-name {
-            font-family: 'Rubik', sans-serif;
+            font-family: 'Syne', sans-serif;
             font-weight: 700;
             font-size: 14px;
             color: var(--text-primary);
@@ -1418,7 +1401,7 @@
         }
 
         .bt-prod-price {
-            font-family: 'Rubik', sans-serif;
+            font-family: 'Syne', sans-serif;
             font-size: 22px;
             font-weight: 700;
             color: var(--accent);
@@ -1426,7 +1409,7 @@
         }
 
         .bt-prod-price span {
-            font-family: 'Rubik', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 13px;
             color: var(--text-secondary);
             font-weight: 400;
@@ -1461,7 +1444,7 @@
         }
 
         .bt-rec-name {
-            font-family: 'Rubik', sans-serif;
+            font-family: 'Syne', sans-serif;
             font-weight: 700;
             font-size: 14px;
             color: var(--text-primary);
@@ -1503,7 +1486,7 @@
         }
 
         .bt-rec-amount {
-            font-family: 'Rubik', sans-serif;
+            font-family: 'Syne', sans-serif;
             font-size: 20px;
             font-weight: 700;
             color: var(--text-primary);
@@ -1602,7 +1585,7 @@
             padding: 7px 12px;
             font-size: 13px;
             color: var(--text-primary);
-            font-family: 'Rubik', sans-serif;
+            font-family: 'Inter', sans-serif;
             outline: none;
             transition: border-color 0.2s ease;
         }
@@ -1653,7 +1636,7 @@
         }
 
         .bt-chart-label {
-            font-family: 'Rubik', sans-serif;
+            font-family: 'Inter', sans-serif;
             font-size: 11px;
             fill: var(--text-secondary);
         }
@@ -1674,7 +1657,7 @@
         }
 
         .bt-settings-title {
-            font-family: 'Rubik', sans-serif;
+            font-family: 'Syne', sans-serif;
             font-size: 15px;
             font-weight: 700;
             color: var(--text-primary);
@@ -1711,7 +1694,7 @@
             border-radius: 8px;
             padding: 8px 13px;
             font-size: 13px;
-            font-family: 'Rubik', sans-serif;
+            font-family: 'Inter', sans-serif;
             color: var(--text-primary);
             background: var(--bg-input);
             outline: none;
@@ -1851,61 +1834,60 @@
     <!-- ===== SIDEBAR ===== -->
     <aside class="sidebar">
         <div class="logo">
-            <img src="/logo-icon.png" alt="BizTrack Icon" style="height: 38px; width: auto;">
             <div class="logo-text">BizTrack</div>
         </div>
         <ul class="nav-list">
             <li class="nav-item">
                 <button class="nav-link active" onclick="switchSection('dashboard')">
-                    <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg></span>
+                    <span class="nav-icon">📊</span>
                     <span>Dashboard</span>
                 </button>
             </li>
             <li class="nav-item">
                 <button class="nav-link" onclick="switchSection('invoices')">
-                    <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg></span>
+                    <span class="nav-icon">🧾</span>
                     <span>Sales</span>
                 </button>
             </li>
             <li class="nav-item">
                 <button class="nav-link" onclick="switchSection('payments')">
-                    <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg></span>
+                    <span class="nav-icon">💳</span>
                     <span>Payments</span>
                 </button>
             </li>
             <li class="nav-item">
                 <button class="nav-link" onclick="switchSection('expenses')">
-                    <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path><path d="M4 6v12c0 1.1.9 2 2 2h14v-4"></path><path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"></path></svg></span>
+                    <span class="nav-icon">💸</span>
                     <span>Expenses</span>
                 </button>
             </li>
             <li class="nav-item">
                 <button class="nav-link" onclick="switchSection('inventory')">
-                    <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><polyline points="3.29 7 12 12 20.71 7"></polyline><line x1="12" y1="22" x2="12" y2="12"></line></svg></span>
+                    <span class="nav-icon">📦</span>
                     <span>Inventory</span>
                 </button>
             </li>
             <li class="nav-item">
                 <button class="nav-link" onclick="switchSection('customers')">
-                    <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></span>
+                    <span class="nav-icon">👥</span>
                     <span>Customers</span>
                 </button>
             </li>
             <li class="nav-item">
                 <button class="nav-link" onclick="switchSection('timetrack')">
-                    <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg></span>
+                    <span class="nav-icon">⏱️</span>
                     <span>Time</span>
                 </button>
             </li>
             <li class="nav-item">
                 <button class="nav-link" onclick="switchSection('reports')">
-                    <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></span>
+                    <span class="nav-icon">📈</span>
                     <span>Reports</span>
                 </button>
             </li>
             <li class="nav-item">
                 <button class="nav-link" onclick="switchSection('settings')">
-                    <span class="nav-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></span>
+                    <span class="nav-icon">⚙️</span>
                     <span>Settings</span>
                 </button>
             </li>
@@ -1918,7 +1900,9 @@
             <h1 class="header-title" id="pageTitle">Dashboard</h1>
             <div class="header-actions">
                 <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn"
-                    title="Toggle Light/Dark Mode"></button>
+                    title="Toggle Light/Dark Mode">🌙</button>
+                <button class="btn-secondary" onclick="switchSection('settings')">⚙️ Settings</button>
+                <button class="btn-secondary" onclick="switchSection('settings')">👤 Profile</button>
             </div>
         </header>
 
@@ -1929,15 +1913,14 @@
                 <!-- Page Header -->
                 <div class="bt-page-header">
                     <div>
-                        <div class="bt-page-heading" id="userGreeting">Good morning</div>
+                        <div class="bt-page-heading">Good morning 👋</div>
                         <div class="bt-page-sub">Here's your business overview for today</div>
                     </div>
                     <div class="bt-page-actions">
-                        <select class="bt-select" id="dashPeriodSelect" onchange="updateDashboard(true)">
-                            <option value="month">This Month</option>
-                            <option value="last_month">Last Month</option>
-                            <option value="year">This Year</option>
-                            <option value="all">All Time</option>
+                        <select class="bt-select">
+                            <option>This Month</option>
+                            <option>Last Month</option>
+                            <option>This Year</option>
                         </select>
                         <button class="btn-primary" onclick="switchSection('invoices')">+ New Invoice</button>
                     </div>
@@ -1947,9 +1930,7 @@
                 <div class="bt-stats-grid">
                     <div class="bt-stat-card card-teal">
                         <div class="bt-stat-top">
-                            <div class="bt-stat-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-                            </div>
+                            <div class="bt-stat-icon">💰</div>
                             <span class="bt-stat-trend up" id="revChange">—</span>
                         </div>
                         <div class="bt-stat-value" id="totalRevenue">₹0</div>
@@ -1957,9 +1938,7 @@
                     </div>
                     <div class="bt-stat-card card-amber">
                         <div class="bt-stat-top">
-                            <div class="bt-stat-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                            </div>
+                            <div class="bt-stat-icon">⏳</div>
                             <span class="bt-stat-trend down" id="outstandingBadge">—</span>
                         </div>
                         <div class="bt-stat-value" id="outstandingAmount">₹0</div>
@@ -1967,9 +1946,7 @@
                     </div>
                     <div class="bt-stat-card card-rose">
                         <div class="bt-stat-top">
-                            <div class="bt-stat-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
-                            </div>
+                            <div class="bt-stat-icon">⚠️</div>
                             <span class="bt-stat-trend down" id="lateInvoicesBadge">—</span>
                         </div>
                         <div class="bt-stat-value" id="lateInvoicesCount">0</div>
@@ -1977,9 +1954,7 @@
                     </div>
                     <div class="bt-stat-card card-indigo">
                         <div class="bt-stat-top">
-                            <div class="bt-stat-icon">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
-                            </div>
+                            <div class="bt-stat-icon">📤</div>
                             <span class="bt-stat-trend up" id="expChange">—</span>
                         </div>
                         <div class="bt-stat-value" id="totalExpenses">₹0</div>
@@ -1994,12 +1969,11 @@
                         <div class="bt-card-header">
                             <div>
                                 <div class="bt-card-title">Revenue Overview</div>
-                                <div class="bt-card-subtitle">Last performance</div>
+                                <div class="bt-card-subtitle">Last 6 months performance</div>
                             </div>
-                            <select class="bt-select" id="revGroupingSelect" onchange="updateDashboard(true)" style="font-size:12px;padding:5px 10px;">
-                                <option value="monthly">Monthly</option>
-                                <option value="weekly">Weekly</option>
-                                <option value="yearly">Yearly</option>
+                            <select class="bt-select" style="font-size:12px;padding:5px 10px;">
+                                <option>Monthly</option>
+                                <option>Weekly</option>
                             </select>
                         </div>
                         <div class="bt-card-body">
@@ -2034,9 +2008,9 @@
                                         class="bt-donut-bg" />
                                     <!-- Centre labels -->
                                     <text id="donutTotal" x="60" y="55" text-anchor="middle"
-                                        font-family="Rubik,sans-serif" font-size="14" font-weight="700"
+                                        font-family="Syne,sans-serif" font-size="14" font-weight="700"
                                         fill="var(--text-primary)">₹0</text>
-                                    <text x="60" y="70" text-anchor="middle" font-family="Rubik,sans-serif"
+                                    <text x="60" y="70" text-anchor="middle" font-family="Inter,sans-serif"
                                         font-size="10" fill="var(--text-secondary)">This month</text>
                                 </svg>
                                 <div class="bt-donut-legend">
@@ -2055,11 +2029,11 @@
                         <div class="bt-card-header">
                             <div class="bt-card-title">Recent Invoices</div>
                             <a class="bt-view-all" href="#" onclick="switchSection('invoices');return false;">View all
-                                </a>
+                                →</a>
                         </div>
                         <div class="bt-card-body" id="dashRecentInvoices">
                             <div class="empty-state" style="padding:20px 0;">
-                                <div style="font-size:2em;margin-bottom:8px;"></div>
+                                <div style="font-size:2em;margin-bottom:8px;">📄</div>
                                 <p style="font-size:0.85em;">No invoices yet</p>
                             </div>
                         </div>
@@ -2070,11 +2044,11 @@
                         <div class="bt-card-header">
                             <div class="bt-card-title">Recent Payments</div>
                             <a class="bt-view-all" href="#" onclick="switchSection('payments');return false;">View all
-                                </a>
+                                →</a>
                         </div>
                         <div class="bt-card-body" id="dashRecentPayments">
                             <div class="empty-state" style="padding:20px 0;">
-                                <div style="font-size:2em;margin-bottom:8px;"></div>
+                                <div style="font-size:2em;margin-bottom:8px;">💳</div>
                                 <p style="font-size:0.85em;">No payments yet</p>
                             </div>
                         </div>
@@ -2085,11 +2059,11 @@
                         <div class="bt-card-header">
                             <div class="bt-card-title">Recent Expenses</div>
                             <a class="bt-view-all" href="#" onclick="switchSection('expenses');return false;">View all
-                                </a>
+                                →</a>
                         </div>
                         <div class="bt-card-body" id="dashRecentExpenses">
                             <div class="empty-state" style="padding:20px 0;">
-                                <div style="font-size:2em;margin-bottom:8px;"></div>
+                                <div style="font-size:2em;margin-bottom:8px;">🧾</div>
                                 <p style="font-size:0.85em;">No expenses yet</p>
                             </div>
                         </div>
@@ -2121,8 +2095,8 @@
                 <div id="invoiceFormWrap" style="display:none; margin-bottom:24px;">
                     <div class="bt-card">
                         <div class="bt-card-header" style="padding-bottom:0;">
-                            <div class="bt-card-title"> New Invoice</div>
-                            <button class="bt-action-btn" onclick="toggleInvoiceForm()" title="Close"></button>
+                            <div class="bt-card-title">🧾 New Invoice</div>
+                            <button class="bt-action-btn" onclick="toggleInvoiceForm()" title="Close">✕</button>
                         </div>
                         <div class="bt-card-body">
                             <form id="invoiceForm" onsubmit="addInvoice(event)">
@@ -2168,7 +2142,7 @@
                             <button class="bt-tab" onclick="filterInvoices('Overdue',this)">Late</button>
                         </div>
                         <div class="bt-table-search" style="margin-left:auto;max-width:220px;">
-                            <span class="bt-search-icon"></span>
+                            <span class="bt-search-icon">🔍</span>
                             <input placeholder="Search…" oninput="searchInvoices(this.value)">
                         </div>
                     </div>
@@ -2202,20 +2176,20 @@
                         <div style="flex:1;height:1px;background:var(--border);"></div>
                     </div>
                     <div class="sub-nav">
-                        <button class="sub-nav-btn active" onclick="showSubSection('invoices','salesQuotes',this)">
+                        <button class="sub-nav-btn active" onclick="showSubSection('invoices','salesQuotes',this)">💬
                             Quotes</button>
-                        <button class="sub-nav-btn" onclick="showSubSection('invoices','salesRetainer',this)">
+                        <button class="sub-nav-btn" onclick="showSubSection('invoices','salesRetainer',this)">🔄
                             Retainer Invoices</button>
-                        <button class="sub-nav-btn" onclick="showSubSection('invoices','salesChallan',this)"> Delivery
+                        <button class="sub-nav-btn" onclick="showSubSection('invoices','salesChallan',this)">🚚 Delivery
                             Challans</button>
-                        <button class="sub-nav-btn" onclick="showSubSection('invoices','salesSubscriptions',this)">
+                        <button class="sub-nav-btn" onclick="showSubSection('invoices','salesSubscriptions',this)">📅
                             Subscriptions</button>
                     </div>
                 </div>
 
                 <div class="sub-section active" id="salesQuotes" style="margin-top:16px;">
                     <div class="form-section">
-                        <h3 class="form-title"> New Quote</h3>
+                        <h3 class="form-title">💬 New Quote</h3>
                         <div class="form-grid">
                             <div class="form-group">
                                 <label>Customer Name</label>
@@ -2248,7 +2222,7 @@
                         </div>
                     </div>
                     <div class="form-section">
-                        <h3 class="form-title"> All Quotes</h3>
+                        <h3 class="form-title">💬 All Quotes</h3>
                         <div class="table-wrapper">
                             <table>
                                 <thead>
@@ -2274,7 +2248,7 @@
 
                 <div class="sub-section" id="salesRetainer" style="margin-top:16px;">
                     <div class="form-section">
-                        <h3 class="form-title"> New Retainer Invoice</h3>
+                        <h3 class="form-title">🔄 New Retainer Invoice</h3>
                         <div class="form-grid">
                             <div class="form-group">
                                 <label>Customer Name</label>
@@ -2310,7 +2284,7 @@
                         </div>
                     </div>
                     <div class="form-section">
-                        <h3 class="form-title"> All Retainer Invoices</h3>
+                        <h3 class="form-title">🔄 All Retainer Invoices</h3>
                         <div class="table-wrapper">
                             <table>
                                 <thead>
@@ -2337,7 +2311,7 @@
 
                 <div class="sub-section" id="salesChallan" style="margin-top:16px;">
                     <div class="form-section">
-                        <h3 class="form-title"> New Delivery Challan</h3>
+                        <h3 class="form-title">🚚 New Delivery Challan</h3>
                         <div class="form-grid">
                             <div class="form-group">
                                 <label>Customer Name</label>
@@ -2374,7 +2348,7 @@
                         </div>
                     </div>
                     <div class="form-section">
-                        <h3 class="form-title"> All Delivery Challans</h3>
+                        <h3 class="form-title">🚚 All Delivery Challans</h3>
                         <div class="table-wrapper">
                             <table>
                                 <thead>
@@ -2401,7 +2375,7 @@
 
                 <div class="sub-section" id="salesSubscriptions" style="margin-top:16px;">
                     <div class="form-section">
-                        <h3 class="form-title"> New Subscription</h3>
+                        <h3 class="form-title">📅 New Subscription</h3>
                         <div class="form-grid">
                             <div class="form-group">
                                 <label>Customer Name</label>
@@ -2435,17 +2409,13 @@
                                     <option value="Cancelled">Cancelled</option>
                                 </select>
                             </div>
-                            <div class="form-group" style="grid-column:1/-1;">
-                                <label>Notes</label>
-                                <textarea id="subNotes" class="form-textarea" placeholder="Optional notes..."></textarea>
-                            </div>
                         </div>
                         <div class="btn-group" style="margin-top:16px;">
                             <button class="btn-primary" onclick="addSubscription()">Add Subscription</button>
                         </div>
                     </div>
                     <div class="form-section">
-                        <h3 class="form-title"> All Subscriptions</h3>
+                        <h3 class="form-title">📅 All Subscriptions</h3>
                         <div class="table-wrapper">
                             <table>
                                 <thead>
@@ -2456,7 +2426,6 @@
                                         <th>Frequency</th>
                                         <th>Next Billing</th>
                                         <th>Status</th>
-                                        <th>Notes</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -2476,15 +2445,15 @@
             <!-- PAYMENTS SECTION -->
             <section id="payments" class="section">
                 <div class="sub-nav">
-                    <button class="sub-nav-btn active" onclick="showSubSection('payments','paymentLinks',this)">
+                    <button class="sub-nav-btn active" onclick="showSubSection('payments','paymentLinks',this)">🔗
                         Payment Links</button>
-                    <button class="sub-nav-btn" onclick="showSubSection('payments','paymentsReceived',this)"> Payments
+                    <button class="sub-nav-btn" onclick="showSubSection('payments','paymentsReceived',this)">✅ Payments
                         Received</button>
                 </div>
 
                 <div class="sub-section active" id="paymentLinks">
                     <div class="form-section">
-                        <h3 class="form-title"> Generate Payment Link</h3>
+                        <h3 class="form-title">🔗 Generate Payment Link</h3>
                         <p style="color:var(--text-secondary);margin:0 0 20px;">Create shareable payment links to send
                             to customers.</p>
                         <div class="form-grid">
@@ -2510,7 +2479,7 @@
                         </div>
                     </div>
                     <div class="form-section">
-                        <h3 class="form-title"> Generated Payment Links</h3>
+                        <h3 class="form-title">🔗 Generated Payment Links</h3>
                         <div class="table-wrapper">
                             <table>
                                 <thead>
@@ -2536,7 +2505,7 @@
 
                 <div class="sub-section" id="paymentsReceived">
                     <div class="form-section">
-                        <h3 class="form-title"> Record Payment Received</h3>
+                        <h3 class="form-title">✅ Record Payment Received</h3>
                         <div class="form-grid">
                             <div class="form-group">
                                 <label>Customer</label>
@@ -2570,7 +2539,7 @@
                         </div>
                     </div>
                     <div class="form-section">
-                        <h3 class="form-title"> Payments Received</h3>
+                        <h3 class="form-title">✅ Payments Received</h3>
                         <div class="table-wrapper">
                             <table>
                                 <thead>
@@ -2598,15 +2567,15 @@
             <!-- EXPENSES SECTION -->
             <section id="expenses" class="section">
                 <div class="sub-nav">
-                    <button class="sub-nav-btn active" onclick="showSubSection('expenses','expensesRegular',this)">
+                    <button class="sub-nav-btn active" onclick="showSubSection('expenses','expensesRegular',this)">💸
                         Expenses</button>
-                    <button class="sub-nav-btn" onclick="showSubSection('expenses','expensesRecurring',this)">
+                    <button class="sub-nav-btn" onclick="showSubSection('expenses','expensesRecurring',this)">🔁
                         Recurring Expenses</button>
                 </div>
 
                 <div class="sub-section active" id="expensesRegular">
                     <div class="form-section">
-                        <h2 class="form-title"> Record Expense</h2>
+                        <h2 class="form-title">➕ Record Expense</h2>
                         <form id="expenseForm" onsubmit="addExpense(event)">
                             <div class="form-grid">
                                 <div class="form-group">
@@ -2646,7 +2615,7 @@
                         </form>
                     </div>
                     <div class="form-section">
-                        <h2 class="form-title"> Expense Log</h2>
+                        <h2 class="form-title">💰 Expense Log</h2>
                         <div class="table-wrapper">
                             <table id="expensesTable">
                                 <thead>
@@ -2684,8 +2653,8 @@
                     <div id="recurringFormWrap" style="display:none; margin-bottom:24px;">
                         <div class="bt-card">
                             <div class="bt-card-header" style="padding-bottom:0;">
-                                <div class="bt-card-title"> New Recurring Expense</div>
-                                <button class="bt-action-btn" onclick="toggleRecurringForm()" title="Close"></button>
+                                <div class="bt-card-title">🔁 New Recurring Expense</div>
+                                <button class="bt-action-btn" onclick="toggleRecurringForm()" title="Close">✕</button>
                             </div>
                             <div class="bt-card-body">
                                 <div class="form-grid">
@@ -2751,8 +2720,8 @@
                 <div id="productFormWrap" style="display:none; margin-bottom:24px;">
                     <div class="bt-card">
                         <div class="bt-card-header" style="padding-bottom:0;">
-                            <div class="bt-card-title"> New Product</div>
-                            <button class="bt-action-btn" onclick="toggleProductForm()" title="Close"></button>
+                            <div class="bt-card-title">➕ New Product</div>
+                            <button class="bt-action-btn" onclick="toggleProductForm()" title="Close">✕</button>
                         </div>
                         <div class="bt-card-body">
                             <form id="inventoryForm" onsubmit="addProduct(event)">
@@ -2813,8 +2782,8 @@
                 <div id="customerFormWrap" style="display:none; margin-bottom:24px;">
                     <div class="bt-card">
                         <div class="bt-card-header" style="padding-bottom:0;">
-                            <div class="bt-card-title"> New Customer</div>
-                            <button class="bt-action-btn" onclick="toggleCustomerForm()" title="Close"></button>
+                            <div class="bt-card-title">➕ New Customer</div>
+                            <button class="bt-action-btn" onclick="toggleCustomerForm()" title="Close">✕</button>
                         </div>
                         <div class="bt-card-body">
                             <form id="customerForm" onsubmit="addCustomer(event)">
@@ -2835,13 +2804,6 @@
                                         <label>Address</label>
                                         <input type="text" id="custAddress" placeholder="Street, City">
                                     </div>
-                                    <div class="form-group">
-                                        <label>Status</label>
-                                        <select id="custStatus">
-                                            <option value="Active">Active</option>
-                                            <option value="Inactive">Inactive</option>
-                                        </select>
-                                    </div>
                                 </div>
                                 <div class="btn-group">
                                     <button type="submit" class="btn-primary">Save Customer</button>
@@ -2856,13 +2818,18 @@
                 <div class="bt-table-wrap">
                     <div class="bt-table-toolbar">
                         <div class="bt-table-search">
-                            <span class="bt-search-icon"></span>
+                            <span class="bt-search-icon">🔍</span>
                             <input placeholder="Search customers…" oninput="filterCustomers(this.value)">
                         </div>
-                        <select id="custStatusFilter" class="bt-select" onchange="filterCustomers()">
-                            <option value="All">All Status</option>
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
+                        <select class="bt-select">
+                            <option>All Status</option>
+                            <option>Active</option>
+                            <option>Inactive</option>
+                        </select>
+                        <select class="bt-select">
+                            <option>Sort: Name</option>
+                            <option>Sort: Balance</option>
+                            <option>Sort: Date</option>
                         </select>
                     </div>
                     <table class="bt-table">
@@ -2872,7 +2839,6 @@
                                 <th>Email</th>
                                 <th>Phone</th>
                                 <th>Address</th>
-                                <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -2904,8 +2870,8 @@
                 <div id="logTimeFormWrap" style="display:none; margin-bottom:24px;">
                     <div class="bt-card">
                         <div class="bt-card-header" style="padding-bottom:0;">
-                            <div class="bt-card-title"> Log Time Entry</div>
-                            <button class="bt-action-btn" onclick="toggleLogForm()" title="Close"></button>
+                            <div class="bt-card-title">⏱️ Log Time Entry</div>
+                            <button class="bt-action-btn" onclick="toggleLogForm()" title="Close">✕</button>
                         </div>
                         <div class="bt-card-body">
                             <div class="form-grid">
@@ -3071,7 +3037,7 @@
                             <button class="btn-primary" onclick="saveSettings()">Save Configuration</button>
                             <button class="btn-danger"
                                 style="background:var(--danger); color:white; border:none; padding:10px; border-radius:8px; cursor:pointer; font-size:13px; font-weight:600;"
-                                onclick="resetApp()"> Reset Entire Dashboard</button>
+                                onclick="resetApp()">🔥 Reset Entire Dashboard</button>
                         </div>
                     </div>
                 </div>
@@ -3090,7 +3056,7 @@
                     <div class="bt-page-actions">
                         <div class="bt-date-range">
                             <input type="date" class="bt-input" id="reportDateFrom">
-                            <span class="bt-date-sep"></span>
+                            <span class="bt-date-sep">→</span>
                             <input type="date" class="bt-input" id="reportDateTo">
                         </div>
                         <button class="btn-secondary" onclick="exportReportCSV()">&#8681; Export</button>
@@ -3147,17 +3113,12 @@
 
                     <!-- Revenue Line Chart -->
                     <div class="bt-card">
-                            <div style="display:flex; justify-content:space-between; align-items:flex-start; width:100%;">
-                                <div>
-                                    <div class="bt-card-title">Revenue Report</div>
-                                    <div class="bt-card-subtitle" id="rptRevSubtitle">Monthly revenue trend</div>
-                                </div>
-                                <select id="rptRevGrouping" class="bt-select" style="font-size:11px; padding:4px 8px;" onchange="updateReports()">
-                                    <option value="weekly">Weekly</option>
-                                    <option value="monthly" selected>Monthly</option>
-                                    <option value="yearly">Yearly</option>
-                                </select>
+                        <div class="bt-card-header">
+                            <div>
+                                <div class="bt-card-title">Revenue Report</div>
+                                <div class="bt-card-subtitle">Monthly revenue trend</div>
                             </div>
+                        </div>
                         <div class="bt-card-body">
                             <svg id="chart-rpt-revenue" class="bt-chart" height="160" viewBox="0 0 460 160">
                                 <defs>
@@ -3175,17 +3136,12 @@
 
                     <!-- Expense Bar Chart -->
                     <div class="bt-card">
-                            <div style="display:flex; justify-content:space-between; align-items:flex-start; width:100%;">
-                                <div>
-                                    <div class="bt-card-title">Expense Report</div>
-                                    <div class="bt-card-subtitle" id="rptExpSubtitle">Monthly expense breakdown</div>
-                                </div>
-                                <select id="rptExpGrouping" class="bt-select" style="font-size:11px; padding:4px 8px;" onchange="updateReports()">
-                                    <option value="weekly">Weekly</option>
-                                    <option value="monthly" selected>Monthly</option>
-                                    <option value="yearly">Yearly</option>
-                                </select>
+                        <div class="bt-card-header">
+                            <div>
+                                <div class="bt-card-title">Expense Report</div>
+                                <div class="bt-card-subtitle">Monthly expense breakdown</div>
                             </div>
+                        </div>
                         <div class="bt-card-body">
                             <svg id="chart-rpt-expenses" class="bt-chart" height="160" viewBox="0 0 420 160">
                                 <defs>
@@ -3295,8 +3251,7 @@
         let data = {
             invoices: [], expenses: [], inventory: [], customers: [],
             paymentLinks: [], paymentsReceived: [], recurringExpenses: [],
-            quotes: [], retainers: [], timeEntries: [], challans: [], subscriptions: [],
-            statsReportRev: null, statsReportExp: null
+            quotes: [], retainers: [], timeEntries: [], challans: [], subscriptions: []
         };
         let appSettings = {};
 
@@ -3442,57 +3397,30 @@
         async function addInvoice(e) {
             e.preventDefault();
             const customer = document.getElementById('invCustomer').value.trim();
+            if (!customer) { alert('Please enter a customer name.'); return; }
             const amountVal = parseFloat(document.getElementById('invAmount').value);
-            const dueDate = document.getElementById('invDueDate').value || null;
-            const status = document.getElementById('invStatus').value || 'Pending';
-
-            if (!customer || isNaN(amountVal) || amountVal <= 0) {
-                alert('Please enter a customer name and valid amount.');
-                return;
+            const body = {
+                customer,
+                amount: isNaN(amountVal) ? 0 : amountVal,
+                dueDate: document.getElementById('invDueDate').value,
+                status: document.getElementById('invStatus').value,
+                items: []
+            };
+            const { invoice } = await api.post('/api/invoices', body);
+            if (invoice) {
+                // Normalize field names from API response
+                const normalized = {
+                    ...invoice,
+                    amount: invoice.amount ?? invoice.total_amount ?? 0,
+                    dueDate: invoice.dueDate ?? invoice.due_date ?? '',
+                };
+                data.invoices.unshift(normalized);
             }
-
-            try {
-                const res = await api.post('/api/invoices', {
-                    customer,
-                    amount: amountVal,
-                    dueDate,
-                    status,
-                    items: []
-                });
-
-                if (res.error) {
-                    console.error('Invoice API error:', res.error, res.detail);
-                    alert(`Failed to save invoice: ${res.error}`);
-                    return;
-                }
-
-                if (res.invoice) {
-                    const normalized = {
-                        ...res.invoice,
-                        amount: res.invoice.amount ?? res.invoice.total_amount ?? 0,
-                        dueDate: res.invoice.dueDate ?? res.invoice.due_date ?? '',
-                    };
-                    data.invoices.unshift(normalized);
-                }
-
-                renderInvoices();
-                updateDashboard(true);
-                updateReports(true);
-                
-                ['invCustomer', 'invAmount', 'invDueDate'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) el.value = '';
-                });
-                const statusEl = document.getElementById('invStatus');
-                if (statusEl) statusEl.value = 'Pending';
-                
-                const iw = document.getElementById('invoiceFormWrap');
-                if (iw) iw.style.display = 'none';
-
-            } catch (err) {
-                console.error('addInvoice error:', err);
-                alert('An unexpected error occurred.');
-            }
+            renderInvoices();
+            updateDashboard(true);
+            document.getElementById('invoiceForm').reset();
+            const iw = document.getElementById('invoiceFormWrap');
+            if (iw) iw.style.display = 'none';
         }
 
         function renderInvoices(list) {
@@ -3518,7 +3446,7 @@
                     <td class="bt-td-amount ${amtClass}">₹${inv.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
                     <td>
                         <button class="bt-action-btn" title="Mark ${next}" onclick="updateInvoiceStatus('${inv.id}')">&#8635;</button>
-                        <button class="bt-action-btn" title="Delete" onclick="deleteInvoice('${inv.id}')"></button>
+                        <button class="bt-action-btn" title="Delete" onclick="deleteInvoice('${inv.id}')">🗑️</button>
                     </td>
                 </tr>`;
             }).join('');
@@ -3538,10 +3466,9 @@
 
         function searchInvoices(query) {
             const q = query.toLowerCase();
-            const list = data.invoices.filter(i => {
-                const customer = (i.customer || '').toLowerCase();
-                return customer.includes(q) || String(i.amount).includes(q);
-            });
+            const list = data.invoices.filter(i =>
+                i.customer.toLowerCase().includes(q) || String(i.amount).includes(q)
+            );
             renderInvoices(list);
         }
 
@@ -3560,7 +3487,6 @@
             }
             renderInvoices();
             updateDashboard(true);
-            updateReports(true);
         }
 
         async function deleteInvoice(id) {
@@ -3568,7 +3494,6 @@
             data.invoices = data.invoices.filter(inv => inv.id !== id);
             renderInvoices();
             updateDashboard(true);
-            updateReports(true);
         }
 
         // ===== EXPENSES =====
@@ -3584,7 +3509,6 @@
             if (expense) data.expenses.unshift(expense);
             renderExpenses();
             updateDashboard(true);
-            updateReports(true);
             document.getElementById('expenseForm').reset();
         }
 
@@ -3615,7 +3539,6 @@
             data.expenses = data.expenses.filter(exp => exp.id !== id);
             renderExpenses();
             updateDashboard(true);
-            updateReports(true);
         }
 
         // ===== INVENTORY =====
@@ -3637,7 +3560,7 @@
 
         function renderInventory() {
             const grid = document.getElementById('inventoryList');
-            const icons = ['', '', '', '', '', '', '', ''];
+            const icons = ['📦', '💻', '🎨', '📣', '☁️', '🔧', '📋', '⚙️'];
             const cards = data.inventory.map((prod, i) => `
                 <div class="bt-product-card">
                     <div class="bt-prod-top">
@@ -3648,7 +3571,7 @@
                     <div class="bt-prod-type">${escapeHtml(prod.unit || prod.sku || '')} · Qty ${prod.quantity}</div>
                     <div class="bt-prod-price">₹${prod.price.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</div>
                     <div style="margin-top:12px;text-align:right;">
-                        <button class="bt-action-btn" title="Delete" onclick="deleteProduct('${prod.id}')"></button>
+                        <button class="bt-action-btn" title="Delete" onclick="deleteProduct('${prod.id}')">🗑️</button>
                     </div>
                 </div>`).join('');
             grid.innerHTML = cards + `
@@ -3676,8 +3599,7 @@
                 name: document.getElementById('custName').value,
                 email: document.getElementById('custEmail').value,
                 phone: document.getElementById('custPhone').value,
-                address: document.getElementById('custAddress').value,
-                status: document.getElementById('custStatus').value
+                address: document.getElementById('custAddress').value
             };
             const { customer } = await api.post('/api/customers', body);
             if (customer) data.customers.push(customer);
@@ -3700,21 +3622,17 @@
                     <td class="bt-td-mono">${escapeHtml(cust.email)}</td>
                     <td class="bt-td-mono">${escapeHtml(cust.phone)}</td>
                     <td style="color:var(--text-secondary);font-size:13px;">${escapeHtml(cust.address || '—')}</td>
-                    <td><span class="badge ${cust.status === 'Inactive' ? 'overdue' : 'paid'}">${escapeHtml(cust.status || 'Active')}</span></td>
                     <td>
-                        <div class="actions"><button class="action-btn btn-danger" onclick="deleteCustomer('${cust.id}')">Delete</button></div>
+                        <button class="bt-action-btn" title="Delete" onclick="deleteCustomer('${cust.id}')">🗑️</button>
                     </td>
                 </tr>
             `).join('');
         }
 
         async function deleteCustomer(id) {
-            if (!confirm('Delete this customer? This cannot be undone.')) return;
-            const res = await api.delete(`/api/customers/${id}`);
-            if (res.error) { alert(`Error: ${res.error}`); return; }
+            await api.delete(`/api/customers/${id}`);
             data.customers = data.customers.filter(cust => cust.id !== id);
             renderCustomers();
-            updateDashboard(true);
         }
 
         function toggleCustomerForm() {
@@ -3723,20 +3641,12 @@
         }
 
         function filterCustomers(q) {
-            const term = (q || '').toLowerCase();
-            const statusFilter = document.getElementById('custStatusFilter').value;
-
-            const filtered = data.customers.filter(c => {
-                const matchesSearch = !term || (
-                    (c.name || '').toLowerCase().includes(term) ||
-                    (c.email || '').toLowerCase().includes(term) ||
-                    (c.phone || '').toLowerCase().includes(term)
-                );
-                
-                const matchesStatus = statusFilter === 'All' || (c.status || 'Active') === statusFilter;
-                
-                return matchesSearch && matchesStatus;
-            });
+            const term = q.toLowerCase();
+            const filtered = data.customers.filter(c =>
+                c.name.toLowerCase().includes(term) ||
+                c.email.toLowerCase().includes(term) ||
+                c.phone.toLowerCase().includes(term)
+            );
             renderCustomers(filtered);
         }
 
@@ -3785,7 +3695,7 @@
                         </label>
                     </td>
                     <td class="${e.invoice ? 'bt-td-mono' : ''}" style="${e.invoice ? '' : 'color:var(--text-secondary);font-size:13px;'}">${e.invoice ? escapeHtml(e.invoice) : 'Not linked'}</td>
-                    <td><div class="actions"><button class="action-btn btn-danger" onclick="deleteTimeEntry('${e.id}')">Delete</button></div></td>
+                    <td><button class="bt-action-btn" title="Delete" onclick="deleteTimeEntry('${e.id}')">🗑️</button></td>
                 </tr>`).join('');
         }
 
@@ -3795,12 +3705,9 @@
         }
 
         async function deleteTimeEntry(id) {
-            if (!confirm('Delete this time entry?')) return;
-            const res = await api.delete(`/api/time-entries/${id}`);
-            if (res.error) { alert(`Error: ${res.error}`); return; }
+            await api.delete(`/api/time-entries/${id}`);
             data.timeEntries = data.timeEntries.filter(t => t.id !== id);
             renderTimeEntries();
-            updateDashboard(true);
         }
 
 
@@ -4006,10 +3913,8 @@
             const svgEl = containerEl.querySelector('svg');
             const legendEl = containerEl.querySelector('.bt-donut-legend');
             if (!svgEl || !legendEl) return;
-            const categories = (data.stats && data.stats.expensesByCategory) 
-                ? data.stats.expensesByCategory 
-                : getCurrentMonthExpensesByCategory();
-            const grandTotal = categories.reduce((s, c) => s + (Number(c.total) || 0), 0);
+            const categories = getCurrentMonthExpensesByCategory();
+            const grandTotal = categories.reduce((s, c) => s + c.total, 0);
             const centerText = svgEl.querySelector('#donutTotal') || svgEl.querySelector('text');
             if (centerText) {
                 centerText.textContent = grandTotal >= 1000
@@ -4107,103 +4012,39 @@
         });
 
         function updateCharts() {
-            // Dashboard Logic
-            let dashBuckets, dashRev, dashExp;
-            if (data.stats && data.stats.revenueByMonth && data.stats.expensesByMonth) {
-                dashBuckets = data.stats.revenueByMonth.map(d => ({ label: d.label }));
-                dashRev = data.stats.revenueByMonth.map(d => d.total);
-                dashExp = data.stats.expensesByMonth.map(d => d.total);
-            } else {
-                dashBuckets = getLastNMonths(6);
-                dashRev = getMonthlyRevenue(dashBuckets);
-                dashExp = getMonthlyExpenses(dashBuckets);
-            }
+            const buckets = getLastNMonths(6);
+            const revenue = getMonthlyRevenue(buckets);
+            const expenses = getMonthlyExpenses(buckets);
 
+            // ── Line charts ──────────────────────────────────────────
             const dashLineChart = document.getElementById('chart-dash-revenue');
             const dashBarChart = document.getElementById('chart-dash-expenses');
-            if (dashLineChart) renderLineChart(dashLineChart, dashBuckets, dashRev, 'btAreaGrad');
-            if (dashBarChart) renderBarChart(dashBarChart, dashBuckets, dashExp, 'btBarGrad');
 
-            // Reports Logic (Revenue)
+            if (dashLineChart) renderLineChart(dashLineChart, buckets, revenue, 'btAreaGrad');
+            if (dashBarChart) renderBarChart(dashBarChart, buckets, expenses, 'btBarGrad');
+
             const rptLineChart = document.getElementById('chart-rpt-revenue');
-            if (rptLineChart) {
-                const s = data.statsReportRev || data.stats || {};
-                const rBuckets = (s.revenueByMonth || []).map(d => ({ label: d.label }));
-                const rRev = (s.revenueByMonth || []).map(d => d.total);
-                renderLineChart(rptLineChart, rBuckets, rRev, 'btAreaGrad2');
-                
-                const group = document.getElementById('rptRevGrouping')?.value || 'monthly';
-                document.getElementById('rptRevSubtitle').textContent = `${group.charAt(0).toUpperCase() + group.slice(1)} revenue trend`;
-            }
-
-            // Reports Logic (Expense)
             const rptBarChart = document.getElementById('chart-rpt-expenses');
-            if (rptBarChart) {
-                const s = data.statsReportExp || data.stats || {};
-                const eBuckets = (s.expensesByMonth || []).map(d => ({ label: d.label }));
-                const eExp = (s.expensesByMonth || []).map(d => d.total);
-                renderBarChart(rptBarChart, eBuckets, eExp, 'btBarGrad');
 
-                const group = document.getElementById('rptExpGrouping')?.value || 'monthly';
-                document.getElementById('rptExpSubtitle').textContent = `${group.charAt(0).toUpperCase() + group.slice(1)} expense breakdown`;
-            }
+            if (rptLineChart) renderLineChart(rptLineChart, buckets, revenue, 'btAreaGrad2');
+            if (rptBarChart) renderBarChart(rptBarChart, buckets, expenses, 'btBarGrad');
 
-            // Donut chart
+            // ── Donut chart ──────────────────────────────────────────
             const donutWrap = document.getElementById('chart-dash-donut-wrap');
             if (donutWrap) renderDonutChart(donutWrap);
-        }
-
-        // ===== REPORTS STATS =====
-        async function updateReports(forceFetch = false) {
-            const revGroup = document.getElementById('rptRevGrouping')?.value || 'monthly';
-            const expGroup = document.getElementById('rptExpGrouping')?.value || 'monthly';
-
-            // Fetch Revenue Stats if needed
-            if (forceFetch || !data.statsReportRev || data.statsReportRev._grouping !== revGroup) {
-                try {
-                    const stats = await api.get(`/api/stats?grouping=${revGroup}`);
-                    if (stats && !stats.error) {
-                        data.statsReportRev = stats;
-                        data.statsReportRev._grouping = revGroup;
-                    }
-                } catch (e) {}
-            }
-
-            // Fetch Expense Stats if needed
-            if (forceFetch || !data.statsReportExp || data.statsReportExp._grouping !== expGroup) {
-                try {
-                    const stats = await api.get(`/api/stats?grouping=${expGroup}`);
-                    if (stats && !stats.error) {
-                        data.statsReportExp = stats;
-                        data.statsReportExp._grouping = expGroup;
-                    }
-                } catch (e) {}
-            }
-
-            updateCharts();
         }
 
         // ===== DASHBOARD STATS =====
         async function updateDashboard(forceFetch = false) {
             const fmt = n => '₹' + n.toLocaleString('en-IN', { minimumFractionDigits: 2 });
             
-            const period = document.getElementById('dashPeriodSelect')?.value || 'month';
-            const grouping = document.getElementById('revGroupingSelect')?.value || 'monthly';
-
             // Refetch latest stats from backend if forced or if empty
-            if (forceFetch || !data.stats || data.stats._period !== period || data.stats._grouping !== grouping) {
+            if (forceFetch || !data.stats || Object.keys(data.stats).length === 0) {
                 try {
-                    const stats = await api.get(`/api/stats?period=${period}&grouping=${grouping}`);
-                    if (stats && !stats.error) {
-                        data.stats = stats;
-                        data.stats._period = period;
-                        data.stats._grouping = grouping;
-                    }
+                    const stats = await api.get('/api/stats');
+                    if (stats && !stats.error) data.stats = stats;
                 } catch (e) {}
             }
-            
-            // Sync Reports section if it's currently using the same grouping
-            updateReports();
 
             const s = data.stats || {};
             const totalRevenue = s.totalRevenue || 0;
@@ -4219,15 +4060,6 @@
             const elCust = document.getElementById('activeCustomers');
             const elOut = document.getElementById('outstandingAmount');
             const elLate = document.getElementById('lateInvoicesCount');
-
-            // ── Update Greeting ──
-            const hour = new Date().getHours();
-            let greetingText = 'Good morning';
-            if (hour >= 12 && hour < 17) greetingText = 'Good afternoon';
-            else if (hour >= 17 && hour < 21) greetingText = 'Good evening';
-            else if (hour >= 21 || hour < 5) greetingText = 'Good night';
-            const greetEl = document.getElementById('userGreeting');
-            if (greetEl) greetEl.textContent = greetingText;
 
             if (elRev) elRev.textContent = fmt(totalRevenue);
             if (elExp) elExp.textContent = fmt(totalExpenses);
@@ -4266,12 +4098,12 @@
             const invPanel = document.getElementById('dashRecentInvoices');
             if (invPanel) {
                 if (data.invoices.length === 0) {
-                    invPanel.innerHTML = '<div class="empty-state" style="padding:20px 0;"><div style="font-size:2em;margin-bottom:8px;"></div><p style="font-size:0.85em;">No invoices yet</p></div>';
+                    invPanel.innerHTML = '<div class="empty-state" style="padding:20px 0;"><div style="font-size:2em;margin-bottom:8px;">📄</div><p style="font-size:0.85em;">No invoices yet</p></div>';
                 } else {
                     const badgeMap = { Paid: 'paid', Pending: 'pending', Overdue: 'overdue' };
                     invPanel.innerHTML = [...data.invoices].reverse().slice(0, 3).map(inv => `
                         <div class="bt-activity-item">
-                            <div class="bt-act-icon"></div>
+                            <div class="bt-act-icon">📄</div>
                             <div class="bt-act-info">
                                 <div class="bt-act-name">${escapeHtml(inv.customer)}</div>
                                 <div class="bt-act-sub">Due ${inv.dueDate || '—'}</div>
@@ -4288,11 +4120,11 @@
             if (payPanel) {
                 const payments = data.paymentsReceived || [];
                 if (payments.length === 0) {
-                    payPanel.innerHTML = '<div class="empty-state" style="padding:20px 0;"><div style="font-size:2em;margin-bottom:8px;"></div><p style="font-size:0.85em;">No payments yet</p></div>';
+                    payPanel.innerHTML = '<div class="empty-state" style="padding:20px 0;"><div style="font-size:2em;margin-bottom:8px;">💳</div><p style="font-size:0.85em;">No payments yet</p></div>';
                 } else {
                     payPanel.innerHTML = [...payments].reverse().slice(0, 3).map(p => `
                         <div class="bt-activity-item">
-                            <div class="bt-act-icon"></div>
+                            <div class="bt-act-icon">💳</div>
                             <div class="bt-act-info">
                                 <div class="bt-act-name">${escapeHtml(p.payer || p.customer || '—')}</div>
                                 <div class="bt-act-sub">${escapeHtml(p.method || '')} · ${p.date || ''}</div>
@@ -4305,11 +4137,11 @@
             const expPanel = document.getElementById('dashRecentExpenses');
             if (expPanel) {
                 if (data.expenses.length === 0) {
-                    expPanel.innerHTML = '<div class="empty-state" style="padding:20px 0;"><div style="font-size:2em;margin-bottom:8px;"></div><p style="font-size:0.85em;">No expenses yet</p></div>';
+                    expPanel.innerHTML = '<div class="empty-state" style="padding:20px 0;"><div style="font-size:2em;margin-bottom:8px;">🧾</div><p style="font-size:0.85em;">No expenses yet</p></div>';
                 } else {
                     expPanel.innerHTML = [...data.expenses].reverse().slice(0, 3).map(exp => `
                         <div class="bt-activity-item">
-                            <div class="bt-act-icon"></div>
+                            <div class="bt-act-icon">🧾</div>
                             <div class="bt-act-info">
                                 <div class="bt-act-name">${escapeHtml(exp.description)}</div>
                                 <div class="bt-act-sub">${escapeHtml(exp.category)} · ${exp.date || ''}</div>
@@ -4408,7 +4240,7 @@
         // ===== THEME TOGGLE =====
         function toggleTheme() {
             const isLight = document.body.classList.toggle('light');
-            document.getElementById('themeBtn').textContent = isLight ? '🌙' : '☀️';
+            document.getElementById('themeBtn').textContent = isLight ? '☀️' : '🌙';
             localStorage.setItem('smeTheme', isLight ? 'light' : 'dark');
         }
 
@@ -4417,11 +4249,11 @@
             const saved = localStorage.getItem('smeTheme');
             if (saved === 'dark') {
                 // Dark explicitly selected — stay dark
-                document.getElementById('themeBtn').textContent = '☀️';
+                document.getElementById('themeBtn').textContent = '🌙';
             } else {
                 // Default to light (no preference saved, or 'light' saved)
                 document.body.classList.add('light');
-                document.getElementById('themeBtn').textContent = '🌙';
+                document.getElementById('themeBtn').textContent = '☀️';
             }
         })();
 
@@ -4441,30 +4273,22 @@
             };
             await api.post('/api/settings', settings);
             Object.assign(appSettings, settings);
-            alert(' Settings saved successfully!');
+            alert('✅ Settings saved successfully!');
         }
 
 
 
         async function resetApp() {
             const confirmed = confirm(
-                ' RESET ENTIRE APP?\n\n' +
+                '⚠️ RESET ENTIRE APP?\n\n' +
                 'This will permanently delete:\n' +
-                '  • All Invoices & Retainers\n' +
-                '  • All Expenses & Subscriptions\n' +
-                '  • All Products & Customers\n' +
-                '  • All Challans & Quotes\n' +
-                '  • All Settings & Profile\n\n' +
+                '  • All Invoices\n  • All Expenses\n  • All Inventory\n  • All Customers\n  • Settings & Profile\n\n' +
                 'This cannot be undone. Are you absolutely sure?'
             );
             if (!confirmed) return;
-            const reconfirmed = confirm(' Last warning — click OK to permanently reset everything.');
+            const reconfirmed = confirm('🗑️ Last warning — click OK to permanently reset everything.');
             if (!reconfirmed) return;
-            const res = await api.post('/api/reset', {});
-            if (res.error) {
-                alert(`Reset failed: ${res.error}`);
-                return;
-            }
+            await api.post('/api/reset', {});
             localStorage.removeItem('smeTheme');
             location.reload();
         }
@@ -4578,13 +4402,8 @@
                 alert('Please enter a description and valid amount.');
                 return;
             }
-            const res = await api.post('/api/recurring-expenses', { description, amount, category, frequency, next_date: nextDate, active: true });
-            if (res.error) {
-                alert(`Failed to save recurring expense: ${res.error}`);
-                console.error('Recurring Expense API Error:', res.error);
-                return;
-            }
-            if (res.recurringExpense) data.recurringExpenses.push(res.recurringExpense);
+            const { recurringExpense } = await api.post('/api/recurring-expenses', { description, amount, category, frequency, nextDate, active: true });
+            if (recurringExpense) data.recurringExpenses.push(recurringExpense);
             renderRecurringExpenses();
             ['reDescription', 'reAmount', 'reCategory', 'reNextDate'].forEach(id => document.getElementById(id).value = '');
             const rw = document.getElementById('recurringFormWrap');
@@ -4627,7 +4446,7 @@
                                 <input type="checkbox" ${checked} onchange="toggleRecurring('${re.id}', this.checked)">
                                 <span class="bt-toggle-slider"></span>
                             </label>
-                            <button class="bt-action-btn" title="Delete" onclick="deleteRecurringExpense('${re.id}')"></button>
+                            <button class="bt-action-btn" title="Delete" onclick="deleteRecurringExpense('${re.id}')">🗑️</button>
                         </div>
                     </div>
                 </div>`;
@@ -4734,9 +4553,9 @@
                 <tr style="border-bottom:1px solid var(--border);">
                     <td style="padding:12px;">${escapeHtml(q.customer)}</td>
                     <td style="padding:12px;">&#8377;${(q.total_amount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
-                    <td style="padding:12px;color:var(--text-secondary);">${q.expiry_date || q.validUntil || ''}</td>
+                    <td style="padding:12px;color:var(--text-secondary);">${q.expiry_date || q.validUntil || '&mdash;'}</td>
                     <td style="padding:12px;"><span class="badge ${_quoteBadgeClass(q.status)}">${escapeHtml(q.status)}</span></td>
-                    <td style="padding:12px;color:var(--text-secondary);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escapeHtml(q.notes || '')}">${escapeHtml(q.notes || '')}</td>
+                    <td style="padding:12px;color:var(--text-secondary);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escapeHtml(q.notes || '')}">${escapeHtml(q.notes || '&mdash;')}</td>
                     <td style="padding:12px;">
                         <div class="actions">
                             ${q.status !== 'Accepted' ? `<button class="action-btn" onclick="convertQuoteToInvoice('${q.id}')" style="color:var(--accent);">&#8594; Invoice</button>` : ''}
@@ -4759,34 +4578,22 @@
             if (!customer || isNaN(amount) || amount <= 0) { alert('Please enter a customer name and a valid monthly amount.'); return; }
             if (isNaN(billingDay) || billingDay < 1 || billingDay > 28) { alert('Billing day must be between 1 and 28.'); return; }
             
-            try {
-                const res = await api.post('/api/retainers', { customer, amount, billingDay, startDate, status, notes });
-                
-                if (res.error) {
-                    console.error('Retainer API error:', res.error);
-                    alert(`Failed to save retainer: ${res.error}`);
-                    return;
-                }
-                
-                if (res.retainer) data.retainers.unshift(res.retainer);
-                renderRetainers(); updateDashboard(true); updateReports(true);
-                
-                ['rtCustomer', 'rtAmount', 'rtBillingDay', 'rtStartDate', 'rtNotes'].forEach(id => {
-                    const el = document.getElementById(id);
-                    if (el) el.value = '';
-                });
-                document.getElementById('rtStatus').value = 'Active';
-            } catch (err) {
-                console.error('addRetainer unexpected error:', err);
-                alert('An unexpected error occurred.');
-            }
+            const { retainer } = await api.post('/api/retainers', { customer, amount, billingDay, startDate, status, notes });
+            if (retainer) data.retainers.unshift(retainer);
+            renderRetainers(); updateDashboard(true);
+            document.getElementById('rtCustomer').value = '';
+            document.getElementById('rtAmount').value = '';
+            document.getElementById('rtBillingDay').value = '';
+            document.getElementById('rtStartDate').value = '';
+            document.getElementById('rtStatus').value = 'Active';
+            document.getElementById('rtNotes').value = '';
         }
 
         async function deleteRetainer(id) {
             if (!confirm('Delete this retainer invoice?')) return;
             await api.delete(`/api/retainers/${id}`);
             data.retainers = data.retainers.filter(r => r.id !== id);
-            renderRetainers(); updateDashboard(true); updateReports(true);
+            renderRetainers(); updateDashboard(true);
         }
 
         function renderRetainers() {
@@ -4797,13 +4604,13 @@
             }
             tbody.innerHTML = data.retainers.map(r => `
                 <tr style="border-bottom:1px solid var(--border);">
-                    <td style="padding:12px;">${escapeHtml(r.customer || r.customer_name || '—')}</td>
-                    <td style="padding:12px;">&#8377;${(r.amount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
-                    <td style="padding:12px;text-align:center;">${escapeHtml(String(r.billingDay || r.billing_day || '—'))}</td>
-                    <td style="padding:12px;color:var(--text-secondary);">${escapeHtml(String(r.startDate || r.start_date || '—'))}</td>
-                    <td style="padding:12px;"><span class="badge ${_retainerBadgeClass(r.status)}">${escapeHtml(r.status || 'Active')}</span></td>
-                    <td style="padding:12px;color:var(--text-secondary);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escapeHtml(r.notes || '')}">${escapeHtml(r.notes || '—')}</td>
-                    <td style="padding:12px;"><div class="actions"><button class="action-btn btn-danger" onclick="deleteRetainer('${r.id}')">Delete</button></div></td>
+                    <td style="padding:12px;">${escapeHtml(r.customer)}</td>
+                    <td style="padding:12px;">&#8377;${r.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+                    <td style="padding:12px;text-align:center;">${r.billingDay}</td>
+                    <td style="padding:12px;color:var(--text-secondary);">${r.startDate || '&mdash;'}</td>
+                    <td style="padding:12px;"><span class="badge ${_retainerBadgeClass(r.status)}">${escapeHtml(r.status)}</span></td>
+                    <td style="padding:12px;color:var(--text-secondary);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escapeHtml(r.notes || '')}">${escapeHtml(r.notes || '&mdash;')}</td>
+                    <td style="padding:12px;"><div class="actions"><button class="action-btn btn-danger" onclick="deleteRetainer(${r.id})">Delete</button></div></td>
                 </tr>`).join('');
         }
 
@@ -4811,7 +4618,7 @@
         function _challanBadgeClass(s) { return s === 'Delivered' ? 'paid' : s === 'Dispatched' ? 'pending' : 'overdue'; }
 
         async function addChallan() {
-            const challanNo = document.getElementById('dcNumber').value.trim();
+            const challanNo = document.getElementById('dcChallanNo').value.trim();
             const customer = document.getElementById('dcCustomer').value.trim();
             const date = document.getElementById('dcDate').value || new Date().toISOString().split('T')[0];
             const items = document.getElementById('dcItems').value.trim() || '[]';
@@ -4844,7 +4651,6 @@
 
                 renderChallans(); 
                 updateDashboard(true);
-                updateReports(true);
             } catch (err) {
                 console.error('addChallan unexpected error:', err);
                 alert('An unexpected error occurred.');
@@ -4855,7 +4661,7 @@
             if (!confirm('Delete this delivery challan?')) return;
             await api.delete(`/api/delivery-challans/${id}`);
             data.challans = data.challans.filter(c => c.id !== id);
-            renderChallans(); updateDashboard(true); updateReports(true);
+            renderChallans(); updateDashboard();
         }
 
         function renderChallans() {
@@ -4866,22 +4672,18 @@
             }
             tbody.innerHTML = data.challans.map(c => `
                 <tr style="border-bottom:1px solid var(--border);">
-                    <td style="padding:12px;font-weight:600;">${escapeHtml(c.challan_no || c.challanNo || '—')}</td>
+                    <td style="padding:12px;font-weight:600;">${escapeHtml(c.challanNo)}</td>
                     <td style="padding:12px;">${escapeHtml(c.customer)}</td>
                     <td style="padding:12px;color:var(--text-secondary);">${c.date || '&mdash;'}</td>
                     <td style="padding:12px;color:var(--text-secondary);max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escapeHtml(c.items || '')}">${escapeHtml(c.items || '&mdash;')}</td>
                     <td style="padding:12px;"><span class="badge ${_challanBadgeClass(c.status)}">${escapeHtml(c.status)}</span></td>
                     <td style="padding:12px;color:var(--text-secondary);max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escapeHtml(c.notes || '')}">${escapeHtml(c.notes || '&mdash;')}</td>
-                    <td style="padding:12px;"><div class="actions"><button class="action-btn btn-danger" onclick="deleteChallan('${c.id}')">Delete</button></div></td>
+                    <td style="padding:12px;"><div class="actions"><button class="action-btn btn-danger" onclick="deleteChallan(${c.id})">Delete</button></div></td>
                 </tr>`).join('');
         }
 
         // ===== SUBSCRIPTIONS (localStorage only — no backend table) =====
-        function _subscriptionBadgeClass(s) { 
-            if (s === 'Active') return 'paid';
-            if (s === 'Paused') return 'pending';
-            return 'overdue'; 
-        }
+        function _subscriptionBadgeClass(s) { return s === 'Active' ? 'paid' : s === 'Paused' ? 'pending' : 'overdue'; }
 
         async function addSubscription() {
             const customer = document.getElementById('subCustomer').value.trim();
@@ -4890,26 +4692,30 @@
             const frequency = document.getElementById('subFrequency').value;
             const nextBillingDate = document.getElementById('subNextBilling').value;
             const status = document.getElementById('subStatus').value;
-            const notes = document.getElementById('subNotes').value.trim();
             if (!customer || !planName || isNaN(amount) || amount <= 0) { alert('Please enter a customer name, plan name, and valid amount.'); return; }
             
-            const { subscription } = await api.post('/api/subscriptions', { customer, planName, amount, frequency, nextBillingDate, status, notes });
+            const { subscription } = await api.post('/api/subscriptions', { customer, planName, amount, frequency, nextBillingDate, status });
             if (subscription) data.subscriptions.unshift(subscription);
-            renderSubscriptions(); updateDashboard(true); updateReports(true);
+            renderSubscriptions(); updateDashboard();
             document.getElementById('subCustomer').value = '';
             document.getElementById('subPlan').value = '';
             document.getElementById('subAmount').value = '';
             document.getElementById('subFrequency').value = 'Monthly';
             document.getElementById('subNextBilling').value = '';
             document.getElementById('subStatus').value = 'Active';
-            document.getElementById('subNotes').value = '';
         }
 
         async function deleteSubscription(id) {
             if (!confirm('Delete this subscription?')) return;
             await api.delete(`/api/subscriptions/${id}`);
             data.subscriptions = data.subscriptions.filter(s => s.id !== id);
-            renderSubscriptions(); updateDashboard(true); updateReports(true);
+            renderSubscriptions(); updateDashboard();
+        }
+
+        function deleteSubscription(id) {
+            if (!confirm('Delete this subscription?')) return;
+            data.subscriptions = data.subscriptions.filter(s => s.id !== id);
+            renderSubscriptions(); updateDashboard();
         }
 
         function renderSubscriptions() {
@@ -4920,14 +4726,13 @@
             }
             tbody.innerHTML = data.subscriptions.map(s => `
                 <tr style="border-bottom:1px solid var(--border);">
-                    <td style="padding:12px;">${escapeHtml(s.customer || s.customer_name || '—')}</td>
-                    <td style="padding:12px;font-weight:600;">${escapeHtml(s.planName || s.plan_name || '—')}</td>
-                    <td style="padding:12px;">&#8377;${(s.amount || 0).toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
-                    <td style="padding:12px;color:var(--text-secondary);">${escapeHtml(s.frequency || '—')}</td>
-                    <td style="padding:12px;color:var(--text-secondary);">${escapeHtml(String(s.nextBillingDate || s.next_billing_date || '—'))}</td>
-                    <td style="padding:12px;"><span class="badge ${_subscriptionBadgeClass(s.status)}">${escapeHtml(s.status || 'Active')}</span></td>
-                    <td style="padding:12px;color:var(--text-secondary);max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${escapeHtml(s.notes || '')}">${escapeHtml(s.notes || '—')}</td>
-                    <td style="padding:12px;"><div class="actions"><button class="action-btn btn-danger" onclick="deleteSubscription('${s.id}')">Delete</button></div></td>
+                    <td style="padding:12px;">${escapeHtml(s.customer)}</td>
+                    <td style="padding:12px;font-weight:600;">${escapeHtml(s.planName)}</td>
+                    <td style="padding:12px;">&#8377;${s.amount.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</td>
+                    <td style="padding:12px;color:var(--text-secondary);">${escapeHtml(s.frequency)}</td>
+                    <td style="padding:12px;color:var(--text-secondary);">${s.nextBillingDate || '&mdash;'}</td>
+                    <td style="padding:12px;"><span class="badge ${_subscriptionBadgeClass(s.status)}">${escapeHtml(s.status)}</span></td>
+                    <td style="padding:12px;"><div class="actions"><button class="action-btn btn-danger" onclick="deleteSubscription(${s.id})">Delete</button></div></td>
                 </tr>`).join('');
         }
 

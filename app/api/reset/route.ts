@@ -4,14 +4,20 @@ import db from '@/lib/db';
 export async function POST() {
     try {
         const tables = [
-            'quote_items', 'quotes', 'time_entries', 'recurring_expenses',
-            'payment_links', 'payments_received', 'invoice_items', 'invoices',
-            'expenses', 'products', 'customers', 'settings'
+            'invoice_items', 'payments_received', 'payment_links', 'invoices',
+            'quote_items', 'quotes', 'time_entries', 
+            'recurring_expenses', 'expenses', 
+            'delivery_challans', 'retainer_invoices', 'subscriptions',
+            'products', 'customers', 'settings'
         ];
 
-        for (const table of tables) {
-            await db.execute({ sql: `DELETE FROM ${table}`, args: [] });
-        }
+        const statements = [
+            { sql: 'PRAGMA foreign_keys = OFF' },
+            ...tables.map(table => ({ sql: `DELETE FROM ${table}` })),
+            { sql: 'PRAGMA foreign_keys = ON' }
+        ];
+
+        await db.batch(statements);
 
         return NextResponse.json({ success: true });
     } catch (e: unknown) {

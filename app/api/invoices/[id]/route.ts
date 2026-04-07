@@ -20,7 +20,10 @@ export async function GET(
 ) {
     try {
         const { id } = await context.params;
-        const invRes = await db.execute({ sql: 'SELECT * FROM invoices WHERE id = ?', args: [id] });
+        const invRes = await db.execute({ 
+            sql: 'SELECT invoices.*, customers.name as customer FROM invoices LEFT JOIN customers ON invoices.customer_id = customers.id WHERE invoices.id = ?', 
+            args: [id] 
+        });
         if (invRes.rows.length === 0) {
             return NextResponse.json({ error: 'Invoice not found' }, { status: 404 });
         }
@@ -49,7 +52,10 @@ export async function PATCH(
             args: [dbStatus, id]
         });
 
-        const invRes = await db.execute({ sql: 'SELECT * FROM invoices WHERE id = ?', args: [id] });
+        const invRes = await db.execute({ 
+            sql: 'SELECT invoices.*, customers.name as customer FROM invoices LEFT JOIN customers ON invoices.customer_id = customers.id WHERE invoices.id = ?', 
+            args: [id] 
+        });
         return NextResponse.json({ invoice: mapInvoice(invRes.rows[0]) });
     } catch (e: unknown) {
         return NextResponse.json({ error: (e as Error).message }, { status: 500 });
